@@ -7,6 +7,10 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import Button from '@material-ui/core/Button';
+import axios from "axios"
+
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -63,8 +67,18 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+
+
 export default function SearchAppBar() {
   const classes = useStyles();
+
+ const handleSearch = function() {
+    axios.get('https://api.edamam.com/search?q=broccoli&app_id=867a731f&app_key=8d8fa59906758f991bd7c52d34c5621f')
+  .then((response) => {
+    console.log(response)
+  })
+  }
+  
 
   return (
     <div className={classes.root}>
@@ -81,10 +95,14 @@ export default function SearchAppBar() {
           <Typography className={classes.title} variant="h6" noWrap>
             Recipes
           </Typography>
+          <div>
+              <Button onClick={handleSearch()}>Find Recipes!</Button>
+            </div>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
+            
             <InputBase
               placeholder="Search…"
               classes={{
