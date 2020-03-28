@@ -11,24 +11,22 @@ const User = require('../models/User');
 // @desc    Register new user
 // @access  Public
 router.post('/', (req, res) => {
-    const { name, email, password } =  req.body;
+    const { firstName, lastName, email, password } =  req.body;
 
     // Simple validation
-    if ( !name || !email || !password ) {
+    if ( !email || !password ) {
         return res.status(400).json({ msg: 'Please enter all fields' });
     }
 
     // Check for existing user with the entered email
-    // Note: since the variable and field are both called 'email' we can
-    // use { email } in place of { email: email } for the query
     User.findOne({ email })
         .then(user => {
-            
             // if the query was successful, there is already a user with that email
             if (user) return res.status(400).json({ msg: 'User already exists' });
             // if the email is not in use, create a new user
             const newUser = new User({
-                name, 
+                firstName, 
+                lastName, 
                 email, 
                 password
             });
@@ -53,7 +51,8 @@ router.post('/', (req, res) => {
                                         token,
                                         user: {
                                             id: user.id,
-                                            name: user.name,
+                                            firstName: user.firstName,
+                                            lastName: user.lastName,
                                             email: user.email
                                         }
                                     });

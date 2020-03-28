@@ -14,14 +14,13 @@ const User = require('../models/User');
 router.post('/', (req, res) => {
     const { email, password } =  req.body;
     console.log('api auth login');
+    console.log(req.body);
     // Simple validation
     if ( !email || !password ) {
         return res.status(400).json({ msg: 'Please enter all fields' });
     }
 
     // Check for existing user with the entered email
-    // Note: since the variable and field are both called 'email' we can
-    // use { email } in place of { email: email } for the query
     User.findOne({ email })
         .then(user => {
             // look for existing user in the database

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -46,8 +46,59 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function SignUp() {
+
+  // Create state objects for signup form
+  const [firstName, setFirstName] = useState({
+    firstName: ""
+  });
+  const [lastName, setLastName] = useState({
+    lastName: ""
+  });
+  const [email, setEmail] = useState({
+    email: ""
+  });
+  const [password, setPassword] = useState({
+    password: ""
+  });
+  // Store form objects in array so we can access them all at once
+  //const formObjects = [{firstName}, {lastName}, {email}, {password}];
+  
   const classes = useStyles();
+  
+/* FORM */
+// Submit form info to create new user.
+const handleSignup = (e) => {
+  e.preventDefault();
+	const newObj = {
+		firstName: {firstName},
+		lastName: {lastName},
+		email: {email},
+		password: {password}
+	}
+  console.log('Signup handleSignup')
+  console.log(newObj)
+}
+
+// single function to handle all form inputs...not working at the moment 
+const handleInputChange = (e) => {
+	  const { name, value } = e.target;
+  	// determine which object to update
+	// set the new value for the given field
+	if ( name === "firstName" ) {
+		setFirstName({[name]: value})
+	}
+	if ( name === "lastName" ) {
+		setLastName({[name]: value})
+	}
+	if ( name === "email" ) {
+		setEmail({[name]: value})
+	}
+	if ( name === "password" ) {
+		setPassword({[name]: value})
+	}
+}
 
   return (
     <Container component="main" maxWidth="xs">
@@ -70,6 +121,7 @@ export default function SignUp() {
                 fullWidth
                 id="firstName"
                 label="First Name"
+                onChange={handleInputChange}
                 autoFocus
               />
             </Grid>
@@ -81,6 +133,7 @@ export default function SignUp() {
                 id="lastName"
                 label="Last Name"
                 name="lastName"
+                onChange={handleInputChange}
                 autoComplete="lname"
               />
             </Grid>
@@ -92,6 +145,7 @@ export default function SignUp() {
                 id="email"
                 label="Email Address"
                 name="email"
+                onChange={handleInputChange}
                 autoComplete="email"
               />
             </Grid>
@@ -104,6 +158,7 @@ export default function SignUp() {
                 label="Password"
                 type="password"
                 id="password"
+                onChange={handleInputChange}
                 autoComplete="current-password"
               />
             </Grid>
@@ -115,6 +170,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick={handleSignup}
           >
             Sign Up
           </Button>

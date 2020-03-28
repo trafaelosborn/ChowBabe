@@ -5,7 +5,6 @@ const config = require('config');
 const app = express();
 const port = process.env.PORT || 3001;
 
-
 // Body Parser middleware
 app.use(express.json());
  
@@ -15,7 +14,8 @@ const db = config.get('mongoURI');
 // connect to DB
 mongoose.connect(db, {
     useNewUrlParser: true,
-    useCreateIndex: true
+    useCreateIndex: true,
+    useUnifiedTopology: true
 })
     .then(() => console.log('mongodb connected'))
     .catch(err => console.log(err))
@@ -28,7 +28,8 @@ app.use('/api/auth', require('./routes/auth'));
 if(process.env.NODE_ENV === 'production') {
     // Set static folder
     app.use(express.static('client/build'));
-    // server index.html from build folder
+    
+    // server index.html from public folder
     app.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     });
