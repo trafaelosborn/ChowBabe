@@ -15,6 +15,7 @@ import axios from "axios"
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    zIndex: 2
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -84,7 +85,7 @@ export default function SearchAppBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -98,7 +99,7 @@ export default function SearchAppBar() {
             Recipes
           </Typography>
           <div>
-          <button onClick={ (event)=>{ handleSearch(event); }}>Get Recipes! </button>
+          <Button onClick={ (event)=>{ handleSearch(event); }}>Get Recipes! </Button>
             </div>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
