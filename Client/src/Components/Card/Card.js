@@ -7,6 +7,8 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles({
   root: {
@@ -38,9 +40,9 @@ export default function ImgMediaCard() {
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
-          Save Recipe
-        </Button>
+      <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+          </IconButton>
         <Button size="small" color="primary">
           See Recipe
         </Button>
