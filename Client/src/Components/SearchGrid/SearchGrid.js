@@ -6,40 +6,39 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 
-const useStyles = makeStyles(theme => ({
-    Grid: {
-      flexGrow: 1,
-    },
-    
-  }));
+const gridStyle = {
+    color: 'blue',
+    marginTop: '2%'
+  };
 
-  export default function SearchGrid() {
-    const classes = useStyles();
-  
+export default function SearchGrid() {
+   
+
     return (
         <div classname="Grid">
-    
-        <Grid container spacing={4}>
-          <Grid item s>
-            <Card />
-          </Grid>
-          <Grid item s>
-          <Card />
-          </Grid>
-          <Grid item s>
-          <Card />
-          </Grid>
-          <Grid item s>
-            <Card />
-          </Grid>
-          <Grid item s>
-          <Card />
-          </Grid>
-          <Grid item s>
-          <Card />
-          </Grid>         
-        </Grid>
+            <Container style={gridStyle}>
+            <Grid container spacing={4} >
+                <Grid item s >
+                    <Card />
+                </Grid>
+                <Grid item s>
+                    <Card />
+                </Grid>
+                <Grid item s>
+                    <Card />
+                </Grid>
+                <Grid item s>
+                    <Card />
+                </Grid>
+                <Grid item s>
+                    <Card />
+                </Grid>
+                <Grid item s>
+                    <Card />
+                </Grid>
+            </Grid>
+            </Container>
         </div>
-        
+
     );
-  }
+}

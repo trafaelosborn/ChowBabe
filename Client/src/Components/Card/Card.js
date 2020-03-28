@@ -23,8 +23,8 @@ export default function ImgMediaCard() {
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
-          height="140"
-          image="/static/images/cards/contemplative-reptile.jpg"
+          // height="140"
+          image="https://nnimgt-a.akamaihd.net/transform/v1/crop/frm/fdcx/doc76o44a3o4iw1eym1o6n6.jpg/r0_0_6000_4800_w1200_h678_fmax.jpg"
           title="Contemplative Reptile"
         />
         <CardContent>

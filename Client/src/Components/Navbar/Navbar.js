@@ -98,7 +98,7 @@ export default function SearchAppBar() {
             Recipes
           </Typography>
           <div>
-          <button onClick={ (event)=>{ handleSearch(event); }}>Get Recipes! </button>
+          <Button onClick={ (event)=>{ handleSearch(event); }}>Get Recipes! </Button>
             </div>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
