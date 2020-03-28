@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 
 const gridStyle = {
     color: 'blue',
-    marginTop: '2%'
+    marginTop: '5%'
   };
 
 export default function SearchGrid() {
