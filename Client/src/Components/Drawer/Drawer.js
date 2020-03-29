@@ -120,7 +120,7 @@ function ResponsiveDrawer(props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <Divider />
+      
       <List>
         {['My Recipes', 'Saved Recipes', 'All Recipes'].map((text, index) => (
           <ListItem button key={text}>
