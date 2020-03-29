@@ -17,101 +17,99 @@ import Divider from '@material-ui/core/Divider';
 
 function Copyright() {
     return (
-      <Typography variant="body2" color="textSecondary" align="center">
-        {'Copyright © '}
-        <Link color="inherit" href="https://material-ui.com/">
-          Your Website
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href="https://material-ui.com/">
+                Your Website
         </Link>{' '}
-        {new Date().getFullYear()}
-        {'.'}
-      </Typography>
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
     );
-  }
-  
-  const useStyles = makeStyles((theme) => ({
+}
+
+const useStyles = makeStyles((theme) => ({
     paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+        marginTop: theme.spacing(8),
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
     },
     avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
+        margin: theme.spacing(1),
+        backgroundColor: theme.palette.secondary.main,
     },
     form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(1),
-      display: "inline-block"
+        width: '100%', // Fix IE 11 issue.
+        marginTop: theme.spacing(1),
+        display: "inline-block"
     },
     submit: {
-      margin: theme.spacing(3, 0, 2),
+        margin: theme.spacing(3, 0, 2),
     },
-  }));
+}));
 
-  let ingredientArray = []
-  let directionArray = []
-  
- 
-  export default function SignIn() {
+let ingredientArray = []
+let directionArray = []
+
+
+export default function SignIn() {
     const classes = useStyles();
-  
+
     return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-         
-          <Typography component="h1" variant="h3">
-            Create a Recipe
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+
+                <Typography component="h1" variant="h3">
+                    Create a Recipe
           </Typography>
-          <form className={classes.form} noValidate>
-            
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="ingredient"
-              label="Add Ingredient"
-              name="ingredient"
-              autoFocus
-            />
-            <AddIcon color="primary"/>
-            </form>
-            <form className={classes.form}>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              fullWidth
-              id="direction"
-              label="Add Direction"
-              name="direction"
-              autoFocus
-            />
-            <AddIcon color="primary"/>
-            </form>
+                <form className={classes.form} noValidate>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        id="ingredient"
+                        label="Add Ingredient"
+                        name="ingredient"
+                        autoFocus
+                    />
+                    <AddIcon color="primary" />
+                </form>
+                <form className={classes.form}>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        id="direction"
+                        label="Add Direction"
+                        name="direction"
+                        autoFocus
+                    />
+                    <AddIcon color="primary" />
+                </form>
+                <h3>Ingredients:</h3>
+                <Divider />
+                <h3>Directions:</h3>
 
-            <h3>Ingredients:</h3>
-            <Divider />
-            <h3>Directions:</h3>
-
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Create Recipe!
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.submit}
+                >
+                    Create Recipe!
             </Button>
-            
-          
-        </div>
-        <Box mt={8}>
-         
-        </Box>
-      </Container>
+
+
+            </div>
+            <Box mt={8}>
+
+            </Box>
+        </Container>
     );
-  }
-        
-    
+}
+
+
 

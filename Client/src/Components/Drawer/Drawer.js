@@ -160,6 +160,8 @@ function ResponsiveDrawer(props) {
           </Typography>
           
           <div>
+          <Button href="/createrecipe"> Create a Recipe </Button>
+            <Button href="/profile"> My Profile </Button>
           <Button >Get Recipes! </Button>
             </div>
           <div className={classes.search}>
