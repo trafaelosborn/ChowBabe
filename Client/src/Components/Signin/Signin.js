@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Background from '../../Assets/Img/signin.jpg'
+import auth from '../../Utils/authroutes';
 
 function Copyright() {
   return (
@@ -61,6 +62,19 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signin() {
   const classes = useStyles();
+  /* State variables for auth form */
+	const [formObject, setFormObject] = useState({
+		email: "",
+		password: ""
+	})
+	const { email, password } = formObject;
+	
+	// Registration event handlers
+	const onChange = e => setFormObject({...formObject, [e.target.name]: e.target.value})
+	const handleSignin = e => {
+		e.preventDefault();
+		auth.login(formObject)
+	}
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -82,7 +96,9 @@ export default function Signin() {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
+			  name="email"
+			  value={email}
+			  onChange={e => onChange(e)}
               autoComplete="email"
               autoFocus
             />
@@ -92,7 +108,9 @@ export default function Signin() {
               required
               fullWidth
               name="password"
-              label="Password"
+			  label="Password"
+			  value={password}
+			  onChange={e => onChange(e)}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -106,7 +124,8 @@ export default function Signin() {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+			  className={classes.submit}
+			  onClick={handleSignin}
             >
               Sign In
             </Button>

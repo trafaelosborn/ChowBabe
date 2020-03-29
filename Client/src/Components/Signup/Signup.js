@@ -12,6 +12,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import axios from 'axios';
+import auth from '../../Utils/authroutes';
 
 function Copyright() {
   return (
@@ -48,58 +50,23 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function SignUp() {
-
-  // Create state objects for signup form
-  const [firstName, setFirstName] = useState({
-    firstName: ""
-  });
-  const [lastName, setLastName] = useState({
-    lastName: ""
-  });
-  const [email, setEmail] = useState({
-    email: ""
-  });
-  const [password, setPassword] = useState({
-    password: ""
-  });
-  // Store form objects in array so we can access them all at once
-  //const formObjects = [{firstName}, {lastName}, {email}, {password}];
-  
-  const classes = useStyles();
-  
-/* FORM */
-// Submit form info to create new user.
-const handleSignup = (e) => {
-  e.preventDefault();
-	const newObj = {
-		firstName: {firstName},
-		lastName: {lastName},
-		email: {email},
-		password: {password}
+	const classes = useStyles();
+	/* State variables for auth form */
+	const [formObject, setFormObject] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: ""
+	})
+	const { firstName, lastName, email, password } = formObject;
+	
+	// Registration event handlers
+	const onChange = e => setFormObject({...formObject, [e.target.name]: e.target.value})
+	const handleSignup = e => {
+		e.preventDefault();
+		auth.register(formObject)
 	}
-  console.log('Signup handleSignup')
-  console.log(newObj)
-}
-
-// single function to handle all form inputs...not working at the moment 
-const handleInputChange = (e) => {
-	  const { name, value } = e.target;
-  	// determine which object to update
-	// set the new value for the given field
-	if ( name === "firstName" ) {
-		setFirstName({[name]: value})
-	}
-	if ( name === "lastName" ) {
-		setLastName({[name]: value})
-	}
-	if ( name === "email" ) {
-		setEmail({[name]: value})
-	}
-	if ( name === "password" ) {
-		setPassword({[name]: value})
-	}
-}
-
+	
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -115,13 +82,14 @@ const handleInputChange = (e) => {
             <Grid item xs={12} sm={6}>
               <TextField
                 autoComplete="fname"
-                name="firstName"
+				name="firstName"
+				value={firstName}
                 variant="outlined"
                 required
                 fullWidth
                 id="firstName"
                 label="First Name"
-                onChange={handleInputChange}
+                onChange={e => onChange(e)}
                 autoFocus
               />
             </Grid>
@@ -132,8 +100,9 @@ const handleInputChange = (e) => {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
-                onChange={handleInputChange}
+				name="lastName"
+				value={lastName}
+				onChange={e => onChange(e)}
                 autoComplete="lname"
               />
             </Grid>
@@ -144,8 +113,9 @@ const handleInputChange = (e) => {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
-                onChange={handleInputChange}
+				name="email"
+				value={email}
+				onChange={e => onChange(e)}
                 autoComplete="email"
               />
             </Grid>
@@ -154,11 +124,12 @@ const handleInputChange = (e) => {
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
+				name="password"
+				value={password}
                 label="Password"
                 type="password"
                 id="password"
-                onChange={handleInputChange}
+                onChange={e => onChange(e)}
                 autoComplete="current-password"
               />
             </Grid>
