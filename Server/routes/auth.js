@@ -13,8 +13,6 @@ const User = require('../models/User');
 // @access  Public
 router.post('/', (req, res) => {
     const { email, password } =  req.body;
-    console.log('api auth login');
-    console.log(req.body);
     // Simple validation
     if ( !email || !password ) {
         return res.status(400).json({ msg: 'Please enter all fields' });
@@ -43,7 +41,6 @@ router.post('/', (req, res) => {
                                 token,
                                 user: {
                                     id: user.id,
-                                    name: user.name,
                                     email: user.email
                                 }
                             });
