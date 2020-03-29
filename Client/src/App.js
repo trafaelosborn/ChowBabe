@@ -5,7 +5,7 @@ import Signin from './Components/Signin/Signin';
 import Signup from './Components/Signup/Signup'
 import Search from './Components/Search/Search'
 import Profile from './Components/Profile/Profile'
-
+import CreateRecipe from './Components/CreateRecipe/CreateRecipe'
 function App() {
   return (
     <Router>
@@ -14,7 +14,8 @@ function App() {
           <Route exact path = "/" component = {Signin} />
           <Route exact path = "/signup" component = {Signup}/>
           <Route exact path = "/search" component = {Search}/>
-          <Route exact path = "/Profile" component = {Profile}/>
+          <Route exact path = "/profile" component = {Profile}/>
+          <Route exact path = "/createrecipe" component = {CreateRecipe}/>
         </Switch>
       </div>
      </Router>
