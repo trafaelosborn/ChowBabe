@@ -10,7 +10,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
 import axios from "axios"
 import Link from '@material-ui/core/Link';
-
+import API from '../../Utils/api'
 
 const useStyles = makeStyles(theme => ({
   
@@ -70,19 +70,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const handleSearch = function (event) {
-  event.preventDefault();
-  axios.get('https://api.edamam.com/search?q=broccoli&app_id=867a731f&app_key=8d8fa59906758f991bd7c52d34c5621f')
-    .then((response) => {
-      console.log(response)
-    })
-}
 
-export default function SearchAppBar() {
+
+export default function SearchAppBar({search, handleSearch, handleInput}) {
   const classes = useStyles();
-
-
-
 
   return (
     <div className={classes.root}>
@@ -107,7 +98,7 @@ export default function SearchAppBar() {
           <div>
             <Button href="/createrecipe"> Create a Recipe </Button>
             <Button href="/profile"> My Profile </Button>
-            <Button onClick={(event) => { handleSearch(event); }}>Get Recipes! </Button>
+            <Button onClick={handleSearch}>Get Recipes! </Button>
           </div>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -115,8 +106,12 @@ export default function SearchAppBar() {
             </div>
 
             <InputBase
+              name="search"
+              value={search}
+              onChange={handleInput}
               placeholder="Search…"
               classes={{
+
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
