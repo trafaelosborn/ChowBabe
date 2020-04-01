@@ -4,11 +4,10 @@ export default {
 	getRecipe: function(searchterm) {
 		return axios.get("/api/recipes/" + searchterm);
 	},
+	// Send custom recipe data to /api/recipes/calculate route
 	getNutrition: function(recipeInfo) {
-		return axios.post("/api/recipes/calculate", recipeInfo, { headers: { "Content-Type": "application/json" } })
-		.then(res => {
-			console.log(res);
-		})
+		return axios.post("/api/recipes/calculate", recipeInfo, 
+			{ headers: { "Content-Type": "application/json" } })
 	},
 	register: function(userData) {
 		axios

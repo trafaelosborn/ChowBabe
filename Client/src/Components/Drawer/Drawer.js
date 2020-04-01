@@ -22,7 +22,8 @@ import { fade } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import BookRoundedIcon from '@material-ui/icons/BookRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
-import SearchGrid from '../SearchGrid/SearchGrid'
+import SearchGrid from '../SearchGrid/SearchGrid';
+import Test from '../Test/Test';
 
 const drawerWidth = 240;
 
@@ -213,6 +214,7 @@ function ResponsiveDrawer(props) {
       </nav>
       <main className={classes.content}>
       {/* <SearchGrid /> */}
+	  <Test />
       </main>
     </div>
   );

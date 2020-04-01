@@ -29,7 +29,13 @@ router.post("/calculate", (req, res) => {
 		{ headers: { 'Content-Type': 'application/json' } })
 	.then(result => {
 		res.json(result.data);
-	}).catch(err => { console.log(err)})
+	}).catch(err => { 
+		console.log(err)
+		if ( err.response.status === 555) {
+			console.log('555 error: Recipe with insufficient quality to process correctly.')
+			res.json({error: 555});
+		}
+	})
 })
 
 // @route   POST /api/recipes/save
