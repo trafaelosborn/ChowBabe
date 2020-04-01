@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
+import Axios from 'axios';
 
 
 
@@ -42,20 +43,22 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const classes = useStyles();
 
-
-    const [inputItems, setInputItems] = useState([]);
+    const [recipeName, setRecipeName] = useState("");
+    const [ingredientItems, setIngredientItems] = useState([]);
     const [directionItems, setDirectionItems] = useState([]);
 
     // testInput creates an input reference to use to catch 
     // the value of our input on submit
-    const testInput = useRef();
+    const ingredientInput = useRef();
     const directionInput = useRef();
+    const recipeInput = useRef();
 
     // Input handler for form submission
     const formSubmitted = (event) => {
         event.preventDefault();
-        setInputItems(prevState => [...prevState, testInput.current.value]);
-        console.log(inputItems);
+        console.log(ingredientInput.current.value)
+        setIngredientItems(prevState => [...prevState, ingredientInput.current.value]);
+        console.log(ingredientItems);
     }
 
     const directionSubmitted = (event) => {
@@ -64,31 +67,44 @@ export default function SignIn() {
         console.log(directionItems);
     }
 
-    const centered = {
-        alignItems : 'center'
+    const nameChange = (event) => {
+        event.preventDefault();
+        setRecipeName(recipeInput.current.value);
+        console.log(recipeName)
     }
 
-    const listStyle = {
-        alignItems : "left"
+    const formSubmit = (event) => {
+        event.preventDefault();
+        let recipeData = {
+            recipeName,
+            ingredientItems,
+            directionItems,
+            isCustom : true
+        }
+        Axios.post("/api/recipes/save", recipeData).then((data) => {
+            console.log(data)
+        })
     }
 
+
+  
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <div></div>
-                <Typography style={centered}  component="h1" variant="h3">
+                <Typography  component="h1" variant="h3">
                 Create a Recipe
                 </Typography>
                 <form className={classes.form} noValidate>
-                <TextField
+                <TextField onChange={(event) => { nameChange(event); }}
                         variant="outlined"
                         margin="normal"
                         fullWidth
                         id="ingredient"
                         label="Recipe Name"
                         name="inputTest"
-                        inputRef=""
+                        inputRef={recipeInput}
                         autoFocus
                     />
                     
@@ -99,7 +115,7 @@ export default function SignIn() {
                         id="ingredient"
                         label="Add Ingredient"
                         name="inputTest"
-                        inputRef={testInput}
+                        inputRef={ingredientInput}
                         autoFocus
                     />
                     {/* <input name={'inputTest'} placeholder="Type Input Item" ref={testInput} /> */}
@@ -118,11 +134,12 @@ export default function SignIn() {
                     />
                     <AddIcon color="primary" onClick={(event) => { directionSubmitted(event); }}/>
                 </form>
+    <h2>{recipeName}</h2>
                 </div>
                 <h3>Ingredients:</h3>
-                <div style={listStyle}>
+                <div >
                 <ul>
-                    {inputItems.map((item, index) => {
+                    {ingredientItems.map((item, index) => {
                         return (
                             <li key={index}>{item}</li>
                         );
@@ -131,7 +148,7 @@ export default function SignIn() {
                 </div>
                 <Divider />
                 <h3>Directions:</h3>
-                <div style={listStyle}>
+                <div >
                 <ol>
                     {directionItems.map((item, index) => {
                         return (
@@ -146,9 +163,10 @@ export default function SignIn() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+                    onClick={formSubmit}
                 >
                     Create Recipe!
-            </Button>
+                </Button>
 
 
             

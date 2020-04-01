@@ -41,9 +41,14 @@ router.post("/calculate", (req, res) => {
 // @route   POST /api/recipes/save
 // @desc    Save recipes to user profile
 // @access  Private
-router.post("/save", auth, (req, res) => {
+
+// router.post("/save", auth, (req, res) => {
+router.post("/save", (req, res) => {
 	console.log("api recipes save");
 	console.log(req.body);
+	Recipe.create(req.body).then((data) => {
+		res.json(data)
+	})
 });
 
 module.exports = router;

@@ -17,7 +17,7 @@ export default class Search extends Component {
         var self = this;
         API.getRecipe(this.state.search).then(function(data){
             self.setState({content: data.data});
-            // console.log(self.state.content);
+            console.log(self.state.content);
         });
       }
 
