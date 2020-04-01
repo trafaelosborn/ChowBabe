@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 
 const cardStyle = {
   margin: '15px',
-  height: '495px',
+  height: '505px',
   width: '345px'
 };
 
@@ -29,7 +29,7 @@ export default function ImgMediaCard(props) {
   console.log(recipe.label)
   return (
     <Card style = {cardStyle} className={classes.root}>
-      <CardActionArea href={recipe.url}>
+      <CardActionArea onClick={()=> window.open(recipe.url, "_blank")}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
