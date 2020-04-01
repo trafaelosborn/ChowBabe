@@ -212,7 +212,7 @@ function ResponsiveDrawer(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-      {/* <SearchGrid /> */}
+      
       </main>
     </div>
   );

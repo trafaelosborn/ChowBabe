@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const classes = useStyles();
 
-
+    const [recipeName, setRecipeName] = useState("");
     const [inputItems, setInputItems] = useState([]);
     const [directionItems, setDirectionItems] = useState([]);
 
@@ -52,6 +52,7 @@ export default function SignIn() {
     // the value of our input on submit
     const testInput = useRef();
     const directionInput = useRef();
+    const recipeInput = useRef();
 
     // Input handler for form submission
     const formSubmitted = (event) => {
@@ -66,31 +67,32 @@ export default function SignIn() {
         console.log(directionItems);
     }
 
-    const centered = {
-        alignItems : 'center'
+    const nameChange = (event) => {
+        event.preventDefault();
+        setRecipeName(recipeInput.current.value);
+        console.log(recipeName)
     }
 
-    const listStyle = {
-        alignItems : "left"
-    }
 
+
+  
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <div></div>
-                <Typography style={centered}  component="h1" variant="h3">
+                <Typography  component="h1" variant="h3">
                 Create a Recipe
                 </Typography>
                 <form className={classes.form} noValidate>
-                <TextField
+                <TextField onChange={(event) => { nameChange(event); }}
                         variant="outlined"
                         margin="normal"
                         fullWidth
                         id="ingredient"
                         label="Recipe Name"
                         name="inputTest"
-                        inputRef=""
+                        inputRef={recipeInput}
                         autoFocus
                     />
                     
@@ -120,9 +122,10 @@ export default function SignIn() {
                     />
                     <AddIcon color="primary" onClick={(event) => { directionSubmitted(event); }}/>
                 </form>
+    <h2>{recipeName}</h2>
                 </div>
                 <h3>Ingredients:</h3>
-                <div style={listStyle}>
+                <div >
                 <ul>
                     {inputItems.map((item, index) => {
                         return (
@@ -133,7 +136,7 @@ export default function SignIn() {
                 </div>
                 <Divider />
                 <h3>Directions:</h3>
-                <div style={listStyle}>
+                <div >
                 <ol>
                     {directionItems.map((item, index) => {
                         return (
