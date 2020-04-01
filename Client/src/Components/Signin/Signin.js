@@ -13,7 +13,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Background from '../../Assets/Img/signin.jpg'
-import auth from '../../Utils/authroutes';
+import API from '../../Utils/api';
 
 function Copyright() {
   return (
@@ -73,7 +73,7 @@ export default function Signin() {
 	const onChange = e => setFormObject({...formObject, [e.target.name]: e.target.value})
 	const handleSignin = e => {
 		e.preventDefault();
-		auth.login(formObject)
+		API.login(formObject)
 	}
 
   return (
