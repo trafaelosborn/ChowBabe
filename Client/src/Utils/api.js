@@ -5,9 +5,8 @@ export default {
 		return axios.get("/api/recipes/" + searchterm);
 	},
 	getNutrition: function(recipeInfo) {
-		return axios.port("/api/recipes/calculate", recipeInfo, { headers: { "Content-Type": "application/json" } })
+		return axios.post("/api/recipes/calculate", recipeInfo, { headers: { "Content-Type": "application/json" } })
 		.then(res => {
-			console.log('client api getNutrition');
 			console.log(res);
 		})
 	},
