@@ -46,10 +46,12 @@ export default function SignIn() {
 
 
     const [inputItems, setInputItems] = useState([]);
+    const [directionItems, setDirectionItems] = useState([]);
 
     // testInput creates an input reference to use to catch 
     // the value of our input on submit
     const testInput = useRef();
+    const directionInput = useRef();
 
     // Input handler for form submission
     const formSubmitted = (event) => {
@@ -58,15 +60,40 @@ export default function SignIn() {
         console.log(inputItems);
     }
 
+    const directionSubmitted = (event) => {
+        event.preventDefault();
+        setDirectionItems(prevState => [...prevState, directionInput.current.value]);
+        console.log(directionItems);
+    }
+
+    const centered = {
+        alignItems : 'center'
+    }
+
+    const listStyle = {
+        alignItems : "left"
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-
-                <Typography component="h1" variant="h3">
-                    Create a Recipe
-          </Typography>
+                <div></div>
+                <Typography style={centered}  component="h1" variant="h3">
+                Create a Recipe
+                </Typography>
                 <form className={classes.form} noValidate>
+                <TextField
+                        variant="outlined"
+                        margin="normal"
+                        fullWidth
+                        id="ingredient"
+                        label="Recipe Name"
+                        name="inputTest"
+                        inputRef=""
+                        autoFocus
+                    />
+                    
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -88,11 +115,14 @@ export default function SignIn() {
                         id="direction"
                         label="Add Direction"
                         name="direction"
+                        inputRef={directionInput}
                         autoFocus
                     />
-                    <AddIcon color="primary" />
+                    <AddIcon color="primary" onClick={(event) => { directionSubmitted(event); }}/>
                 </form>
+                </div>
                 <h3>Ingredients:</h3>
+                <div style={listStyle}>
                 <ul>
                     {inputItems.map((item, index) => {
                         return (
@@ -100,9 +130,18 @@ export default function SignIn() {
                         );
                     })}
                 </ul>
+                </div>
                 <Divider />
                 <h3>Directions:</h3>
-
+                <div style={listStyle}>
+                <ol>
+                    {directionItems.map((item, index) => {
+                        return (
+                            <li key={index}>{item}</li>
+                        );
+                    })}
+                </ol>
+                </div>
                 <Button
                     type="submit"
                     fullWidth
@@ -114,7 +153,7 @@ export default function SignIn() {
             </Button>
 
 
-            </div>
+            
             <Box mt={8}>
 
             </Box>
