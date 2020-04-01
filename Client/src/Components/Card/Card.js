@@ -13,29 +13,36 @@ import IconButton from '@material-ui/core/IconButton';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345,
+    
   },
 });
 
-export default function ImgMediaCard() {
-  const classes = useStyles();
+const cardStyle = {
+  margin: '15px',
+  height: '495px',
+  width: '345px'
+};
 
+export default function ImgMediaCard(props) {
+  const classes = useStyles();
+  const recipe = props.recipe.recipe
+  console.log(recipe.label)
   return (
-    <Card className={classes.root}>
-      <CardActionArea>
+    <Card style = {cardStyle} className={classes.root}>
+      <CardActionArea href={recipe.url}>
         <CardMedia
           component="img"
           alt="Contemplative Reptile"
           // height="140"
-          image="https://nnimgt-a.akamaihd.net/transform/v1/crop/frm/fdcx/doc76o44a3o4iw1eym1o6n6.jpg/r0_0_6000_4800_w1200_h678_fmax.jpg"
+          image={recipe.image}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {recipe.label}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+          <Typography variant="body2" color="textSecondary" component="h6">
+            {recipe.source}
           </Typography>
         </CardContent>
       </CardActionArea>

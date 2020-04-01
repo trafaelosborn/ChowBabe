@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 
 import { Container } from '@material-ui/core';
 import Card from '../Card/Card'
@@ -11,34 +11,29 @@ const gridStyle = {
     marginTop: '5%'
   };
 
-export default function SearchGrid() {
-   
-
+export default function SearchGrid(props) {
+    // console.log(props.content);
     return (
         <div classname="Grid">
+
+            
+
             <Container style={gridStyle}>
             <Grid container spacing={4} >
-                <Grid item s >
-                    <Card />
-                </Grid>
-                <Grid item s>
-                    <Card />
-                </Grid>
-                <Grid item s>
-                    <Card />
-                </Grid>
-                <Grid item s>
-                    <Card />
-                </Grid>
-                <Grid item s>
-                    <Card />
-                </Grid>
-                <Grid item s>
-                    <Card />
-                </Grid>
+                { props.content.map(function(recipe, index){
+
+                   
+
+                
+                    return(
+                        <Grid items >
+                        <Card  recipe={recipe} content={props.content}/>
+                        </Grid>
+                    );
+                })}
+            
             </Grid>
             </Container>
         </div>
-
     );
 }

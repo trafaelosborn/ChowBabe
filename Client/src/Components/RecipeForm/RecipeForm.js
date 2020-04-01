@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useRef, useState} from 'react'
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
@@ -15,18 +15,7 @@ import Container from '@material-ui/core/Container';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-        </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,12 +38,25 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-let ingredientArray = []
-let directionArray = []
+
 
 
 export default function SignIn() {
     const classes = useStyles();
+
+
+    const [inputItems, setInputItems] = useState([]);
+
+    // testInput creates an input reference to use to catch 
+    // the value of our input on submit
+    const testInput = useRef();
+
+    // Input handler for form submission
+    const formSubmitted = (event) => {
+        event.preventDefault();
+        setInputItems(prevState => [...prevState, testInput.current.value]);
+        console.log(inputItems);
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -71,10 +73,12 @@ export default function SignIn() {
                         fullWidth
                         id="ingredient"
                         label="Add Ingredient"
-                        name="ingredient"
+                        name="inputTest"
+                        inputRef={testInput}
                         autoFocus
                     />
-                    <AddIcon color="primary" />
+                    {/* <input name={'inputTest'} placeholder="Type Input Item" ref={testInput} /> */}
+                    <AddIcon color="primary" onClick={(event) => { formSubmitted(event); }} />
                 </form>
                 <form className={classes.form}>
                     <TextField
@@ -89,6 +93,13 @@ export default function SignIn() {
                     <AddIcon color="primary" />
                 </form>
                 <h3>Ingredients:</h3>
+                <ul>
+                    {inputItems.map((item, index) => {
+                        return (
+                            <li key={index}>{item}</li>
+                        );
+                    })}
+                </ul>
                 <Divider />
                 <h3>Directions:</h3>
 
