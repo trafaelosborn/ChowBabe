@@ -5,6 +5,19 @@ const RecipeSchema = new Schema({
 	recipeName: {
 		type: String,
 		required: false
+	},
+	ingredientItems: {
+		type: [String],
+	},
+	directionItems: {
+		type: [String],
+	},
+	isCustom: {
+		type: Boolean
+	},
+
+	thirdPartyRecipe: {
+		type: Schema.Types.Mixed
 	}
 });
 

@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
+import Axios from 'axios';
 
 
 
@@ -45,20 +46,21 @@ export default function SignIn() {
     const classes = useStyles();
 
     const [recipeName, setRecipeName] = useState("");
-    const [inputItems, setInputItems] = useState([]);
+    const [ingredientItems, setIngredientItems] = useState([]);
     const [directionItems, setDirectionItems] = useState([]);
 
     // testInput creates an input reference to use to catch 
     // the value of our input on submit
-    const testInput = useRef();
+    const ingredientInput = useRef();
     const directionInput = useRef();
     const recipeInput = useRef();
 
     // Input handler for form submission
     const formSubmitted = (event) => {
         event.preventDefault();
-        setInputItems(prevState => [...prevState, testInput.current.value]);
-        console.log(inputItems);
+        console.log(ingredientInput.current.value)
+        setIngredientItems(prevState => [...prevState, ingredientInput.current.value]);
+        console.log(ingredientItems);
     }
 
     const directionSubmitted = (event) => {
@@ -73,6 +75,18 @@ export default function SignIn() {
         console.log(recipeName)
     }
 
+    const formSubmit = (event) => {
+        event.preventDefault();
+        let recipeData = {
+            recipeName,
+            ingredientItems,
+            directionItems,
+            isCustom : true
+        }
+        Axios.post("/api/recipes/save", recipeData).then((data) => {
+            console.log(data)
+        })
+    }
 
 
   
@@ -103,7 +117,7 @@ export default function SignIn() {
                         id="ingredient"
                         label="Add Ingredient"
                         name="inputTest"
-                        inputRef={testInput}
+                        inputRef={ingredientInput}
                         autoFocus
                     />
                     {/* <input name={'inputTest'} placeholder="Type Input Item" ref={testInput} /> */}
@@ -127,7 +141,7 @@ export default function SignIn() {
                 <h3>Ingredients:</h3>
                 <div >
                 <ul>
-                    {inputItems.map((item, index) => {
+                    {ingredientItems.map((item, index) => {
                         return (
                             <li key={index}>{item}</li>
                         );
@@ -151,9 +165,10 @@ export default function SignIn() {
                     variant="contained"
                     color="primary"
                     className={classes.submit}
+                    onClick={formSubmit}
                 >
                     Create Recipe!
-            </Button>
+                </Button>
 
 
             

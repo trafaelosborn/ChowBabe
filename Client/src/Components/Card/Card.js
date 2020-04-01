@@ -9,6 +9,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
+import Axios from 'axios';
 
 const useStyles = makeStyles({
   root: {
@@ -27,6 +28,14 @@ export default function ImgMediaCard(props) {
   const classes = useStyles();
   const recipe = props.recipe.recipe
   console.log(recipe.label)
+
+  const addToFavorites = () => {
+    let recipeData = {thirdPartyRecipe : recipe} 
+    Axios.post("api/recipes/save", recipeData).then((data) => {
+      console.log(data)
+  })
+  }
+
   return (
     <Card style = {cardStyle} className={classes.root}>
       <CardActionArea onClick={()=> window.open(recipe.url, "_blank")}>
@@ -47,7 +56,7 @@ export default function ImgMediaCard(props) {
         </CardContent>
       </CardActionArea>
       <CardActions>
-      <IconButton aria-label="add to favorites">
+      <IconButton onClick={addToFavorites} aria-label="add to favorites">
           <FavoriteIcon />
           </IconButton>
         <Button size="small" color="primary">
