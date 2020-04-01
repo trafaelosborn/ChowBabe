@@ -28,13 +28,8 @@ export default class Search extends Component {
           })
       }
 
-      
-
     render() {
         return (
-
-           
-
             <div>
                 <Navbar search={this.state.search} handleInput={this.handleInput}  handleSearch={this.handleSearch} />
                 <SearchGrid content={this.state.content} />

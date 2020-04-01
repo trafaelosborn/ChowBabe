@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import auth from '../../Utils/authroutes';
+import API from '../../Utils/api';
 
 function Copyright() {
   return (
@@ -63,7 +63,7 @@ export default function SignUp() {
 	const onChange = e => setFormObject({...formObject, [e.target.name]: e.target.value})
 	const handleSignup = e => {
 		e.preventDefault();
-		auth.register(formObject)
+		API.register(formObject)
 	}
 	
   return (
