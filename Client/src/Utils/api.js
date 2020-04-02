@@ -4,6 +4,13 @@ export default {
 	getRecipe: function(searchterm) {
 		return axios.get("/api/recipes/" + searchterm);
 	},
+
+	getSaved: function(isCustom, findAll){
+		console.log(isCustom)
+		// return axios.get("/api/recipes/find", {params: {isCustom, findAll}})
+		return axios.get("/api/recipes/find?isCustom=true")
+	},
+
 	// Send custom recipe data to /api/recipes/calculate route
 	getNutrition: function(recipeInfo) {
 		return axios.post("/api/recipes/calculate", recipeInfo, 

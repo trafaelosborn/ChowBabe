@@ -13,7 +13,8 @@ const RecipeSchema = new Schema({
 		type: [String],
 	},
 	isCustom: {
-		type: Boolean
+		type: Boolean,
+	default : false
 	},
 
 	thirdPartyRecipe: {

@@ -1,4 +1,4 @@
-const axios = require("axios");
+const axios = require("axios")
 const express = require("express");
 const router = express.Router();
 const auth = require("../config/middleware/auth");
@@ -49,6 +49,19 @@ router.post("/save", (req, res) => {
 	Recipe.create(req.body).then((data) => {
 		res.json(data)
 	})
+	
 });
+
+
+router.get("/find", (req, res) => {
+	console.log(req)
+	Recipe.find({}).then(function(data) {
+		res.json(data)
+	}
+	)
+	.catch(function(err){
+		console.log(err)
+	})
+})
 
 module.exports = router;
