@@ -28,7 +28,7 @@ const useStyles = makeStyles({
     width: '345px'
   };
 
-export default function MediaCard() {
+export default function ProfileCard(props) {
     const classes = useStyles();
   
     return (
@@ -36,15 +36,15 @@ export default function MediaCard() {
         <CardActionArea>
           <CardMedia
             className={classes.media}
-            image="https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg"
+            image={props.image}
             title="Contemplative Reptile"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-              Gremlin
+              {props.recipeName}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
-              Don't feed after midnight
+              {props.dietLabels}
             </Typography>
           </CardContent>
         </CardActionArea>
