@@ -36,6 +36,7 @@ export default function ProfileGrid(props) {
 		console.log('renderprofilegrid myRecipes:')
 		console.log(myRecipes)
 		return (<div>
+			<Grid container spacing={4}>
 			{myRecipes.map((item, index) => {
 				return <Grid items >
 					<ProfileCard 
@@ -44,7 +45,9 @@ export default function ProfileGrid(props) {
 						dietLabels={item.dietLabels}
 					/>
 				</Grid>
+				
 			})} 
+			</Grid>
 			</div>)
 		
 	}
