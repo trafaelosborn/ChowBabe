@@ -2,15 +2,13 @@ import axios from "axios";
 
 export default {
 	getRecipe: function(searchterm) {
-		return axios.get("/api/recipes/" + searchterm);
+		return axios.get("/api/recipes/search/" + searchterm);
 	},
-
 	getSaved: function(isCustom, findAll){
 		console.log(isCustom)
 		// return axios.get("/api/recipes/find", {params: {isCustom, findAll}})
 		return axios.get("/api/recipes/find?isCustom=true")
 	},
-
 	// Send custom recipe data to /api/recipes/calculate route
 	getNutrition: function(recipeInfo) {
 		return axios.post("/api/recipes/calculate", recipeInfo, 
@@ -45,6 +43,7 @@ export default {
 				axios
 					.get("/api/users/profile/" + id, { headers: { "x-auth-token": token } })
 					.then(user => {
+						console.log()
 						window.location = "/profile/" + user.data;
 					});
 			});

@@ -36,8 +36,6 @@ export default function Test () {
 
 		API.getNutrition(recipeInfo)
 			.then(results => {
-				console.log('Test.js getNutrition')
-				console.log(results.data)	
 				setNutritionInfo(results.data);
 				/* if ( results.data.error ) {
 					if ( results.data.error === 404 ) {

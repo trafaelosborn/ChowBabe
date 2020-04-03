@@ -4,18 +4,15 @@ import { Container } from '@material-ui/core';
 import ProfileCard from '../ProfileCard/ProfileCard'
 import Grid from '@material-ui/core/Grid';
 
-
-
 const gridStyle = {
     marginTop: '5%'
 };
-
-
 
 export default function SearchGrid() {
 
 useEffect(() => {
     api.getSaved(true, true).then((data) => {
+		console.log('Profile Grid Data')
         console.log(data)
     })
 },[])

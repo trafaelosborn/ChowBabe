@@ -4,10 +4,24 @@ const router = express.Router();
 const auth = require("../config/middleware/auth");
 const Recipe = require("../models/Recipe");
 
-// @route   GET /api/recipes/:searchterm
+
+// @route   POST /api/recipes/find
+// @desc    Get all saved recipes
+// @access  Private
+//router.get("/find", auth, (req, res) => {
+	router.get("/find", (req, res) => {
+		Recipe.find({}).then(function(data) {
+			res.json(data)
+		})
+		.catch(function(err){
+			console.log(err)
+		})
+	});
+
+// @route   GET /api/recipes/search/:searchterm
 // @desc    Search for recipes
 // @access  Public
-router.get("/:searchterm", (req, res) => {
+router.get("/search/:searchterm", (req, res) => {
 	const searchterm = req.params.searchterm;
 	axios
 		.get(
@@ -36,12 +50,11 @@ router.post("/calculate", (req, res) => {
 			res.json({error: 555});
 		}
 	})
-})
+});
 
 // @route   POST /api/recipes/save
 // @desc    Save recipes to user profile
 // @access  Private
-
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
 	console.log("api recipes save");
@@ -49,19 +62,7 @@ router.post("/save", (req, res) => {
 	Recipe.create(req.body).then((data) => {
 		res.json(data)
 	})
-	
 });
 
-
-router.get("/find", (req, res) => {
-	console.log(req)
-	Recipe.find({}).then(function(data) {
-		res.json(data)
-	}
-	)
-	.catch(function(err){
-		console.log(err)
-	})
-})
 
 module.exports = router;
