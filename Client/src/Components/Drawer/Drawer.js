@@ -159,7 +159,7 @@ function ResponsiveDrawer(props) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Recipes
+            {props.user.firstName} {props.user.lastName}
           </Typography>
           
           <div>
@@ -215,14 +215,9 @@ function ResponsiveDrawer(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-
-            <ProfileGrid />
-
-
-      {/* <SearchGrid /> */}
-	  <Test />
-
-      
+        <ProfileGrid user={props.user} />
+		{/* <SearchGrid /> */}
+		<Test />
 
       </main>
     </div>
