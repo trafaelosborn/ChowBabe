@@ -1,19 +1,32 @@
 import axios from "axios";
 
 export default {
+	////////////////////
+	// Recipe functions
 	getRecipe: function(searchterm) {
 		return axios.get("/api/recipes/search/" + searchterm);
 	},
-	getSaved: function(isCustom, findAll){
-		console.log(isCustom)
-		// return axios.get("/api/recipes/find", {params: {isCustom, findAll}})
-		return axios.get("/api/recipes/find?isCustom=true")
-	},
+
 	// Send custom recipe data to /api/recipes/calculate route
 	getNutrition: function(recipeInfo) {
 		return axios.post("/api/recipes/calculate", recipeInfo, 
 			{ headers: { "Content-Type": "application/json" } })
 	},
+
+	// Get recipe category when user clicks profile sidebar
+	getRecipes: function(category, id) {
+		// category determines if we're searching for custom recipes, saved recipes, or both
+		let isCustom = true;
+		if (category === 'savedrecipes') {
+			isCustom = false;
+		} else if ( category === 'allrecipes') {
+			isCustom = "all";
+		}
+		return axios.get("/api/recipes/find/" + isCustom, { headers: { "Content-Type": "application/json" }});
+	},
+
+	//////////////////
+	// User functions
 	register: function(userData) {
 		axios
 			.post("/api/users", userData, { headers: { "Content-Type": "application/json" } })
@@ -30,6 +43,8 @@ export default {
 					});
 			});
 	},
+
+	// Login user
 	login: function(userData) {
 		return axios
 			.post("/api/auth", userData, { headers: { "Content-Type": "application/json" } })
@@ -48,7 +63,8 @@ export default {
 					});
 			});
 	},
-	// Load user info...call on profile page to populate with name, saved recipes, etc.
+
+	// Get user info
 	getUserInfo: function(id) {
 		// Using hard coded token until I store it somewhere...
 		const token = localStorage.getItem(id);

@@ -24,8 +24,9 @@ import BookRoundedIcon from '@material-ui/icons/BookRounded';
 import FavoriteRoundedIcon from '@material-ui/icons/FavoriteRounded';
 import ProfileGrid from '../ProfileGrid/ProfileGrid'
 import SearchGrid from '../SearchGrid/SearchGrid';
+import {useParams} from 'react-router-dom';
+import API from '../../Utils/api';
 import Test from '../Test/Test';
-
 
 const drawerWidth = 240;
 
@@ -111,28 +112,59 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResponsiveDrawer(props) {
+	const {id } = useParams();
   const { container } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [recipes, setRecipes] = React.useState([]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const handleClick = (e, category) => {
+	// getRecipes: gets recipes of the given sidebar category
+	// and updates the recipes state which updates the content of ProfileGrid 
+	API.getRecipes(category, id).then(results => {
+		const newArr = results.data.map((item, index) => {
+			if ( item.isCustom ) {
+				return {
+					key: index,
+					recipeName: item.recipeName,
+					dietLabels: "Custom Recipe",					
+					image: "https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg"
+				}
+			} else {
+				return {
+					key: index,
+					recipeName: item.thirdPartyRecipe.label,
+					dietLabels: item.thirdPartyRecipe.dietLabels.join(", "),					
+					image: item.thirdPartyRecipe.image
+				}
+			}
+		})
+		setRecipes(newArr); 
+	})
+  }
 
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       
       <List>
-        {['My Recipes', 'Saved Recipes', 'All Recipes'].map((text, index) => (
-          <ListItem button key={text}>
+		{[{text: 'My Recipes', category: 'myrecipes'}, 
+		{text: 'Saved Recipes', category: 'savedrecipes'}, 
+		{text: 'All Recipes', category: 'allrecipes'}].map((item, index) => (
+			<ListItem button key={item.text}>
             <ListItemIcon>{index % 1 === 0 ? <FavoriteRoundedIcon  color="secondary"/> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={item.text} onClick={(e) => {handleClick(e, item.category)}} />
           </ListItem>
         ))}
       </List>
-      <Divider />
+      
+	  <Divider />
+
       <List>
         {['My Cookbooks'].map((text, index) => (
           <ListItem button key={text}>
@@ -164,7 +196,7 @@ function ResponsiveDrawer(props) {
           
           <div>
           <Button href="/createrecipe"> Create a Recipe </Button>
-            <Button href="/profile"> My Profile </Button>
+            <Button href={"/profile/"+id}> My Profile </Button>
           <Button >Get Recipes! </Button>
             </div>
           <div className={classes.search}>
@@ -215,8 +247,7 @@ function ResponsiveDrawer(props) {
         </Hidden>
       </nav>
       <main className={classes.content}>
-        <ProfileGrid user={props.user} />
-		{/* <SearchGrid /> */}
+        <ProfileGrid recipes={recipes}/>
 		<Test />
 
       </main>
