@@ -14,9 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import AddIcon from '@material-ui/icons/Add';
 import Divider from '@material-ui/core/Divider';
-import Axios from 'axios';
-
-
+import API from '../../Utils/api';
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -81,9 +79,7 @@ export default function SignIn() {
             directionItems,
             isCustom : true
         }
-        Axios.post("/api/recipes/save", recipeData).then((data) => {
-            console.log(data)
-        })
+		API.createRecipe(recipeData);
     }
 
 

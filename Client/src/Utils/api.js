@@ -25,6 +25,11 @@ export default {
 		return axios.get("/api/recipes/find/" + isCustom, { headers: { "Content-Type": "application/json" }});
 	},
 
+	// Create a new recipe using RecipeForm
+	createRecipe: function(recipeData) {
+		axios.post("/api/recipes/save", recipeData)
+	},
+
 	//////////////////
 	// User functions
 	register: function(userData) {
