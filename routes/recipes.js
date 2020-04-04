@@ -4,13 +4,16 @@ const router = express.Router();
 const auth = require("../config/middleware/auth");
 const Recipe = require("../models/Recipe");
 
-
 // @route   POST /api/recipes/find
 // @desc    Get all saved recipes
 // @access  Private
 //router.get("/find", auth, (req, res) => {
-	router.get("/find", (req, res) => {
-		Recipe.find({}).then(function(data) {
+	router.get("/find/:isCustom", (req, res) => {
+		// Gets custom OR saved recipes depending on value of isCustom
+		let findVal = { isCustom: req.params.isCustom }
+		// Returns custom and saved recipes
+		if ( req.params.isCustom === "all") findVal = {}
+		Recipe.find(findVal).then(function(data) {
 			res.json(data)
 		})
 		.catch(function(err){
