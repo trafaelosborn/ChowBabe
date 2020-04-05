@@ -1,4 +1,5 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -69,57 +70,52 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
-
-
 export default function SearchAppBar({search, handleSearch, handleInput}) {
-  const classes = useStyles();
+  	const classes = useStyles();
+  	const { id } = useParams();
 
-  return (
-    <div className={classes.root}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="open drawer"
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Recipes
-          </Typography>
-          <div>
-          <Typography className={classes.root}>
-  
-</Typography>
-          </div>
-          <div>
-            <Button href="/createrecipe"> Create a Recipe </Button>
-            <Button href="/profile"> My Profile </Button>
-            <Button onClick={handleSearch}>Get Recipes! </Button>
-          </div>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-
-            <InputBase
-              name="search"
-              value={search}
-              onChange={handleInput}
-              placeholder="Search…"
-              classes={{
-
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </div>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+	return (
+    	<div className={classes.root}>
+      		<AppBar position="fixed">
+        		<Toolbar>
+					<IconButton
+						edge="start"
+						className={classes.menuButton}
+						color="inherit"
+						aria-label="open drawer"
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography className={classes.title} variant="h6" noWrap>
+						Recipes
+					</Typography>
+					<div>
+						<Typography className={classes.root}>
+						</Typography>
+					</div>
+					<div>
+						<Button href={"/createrecipe/" + id}> Create a Recipe </Button>
+						<Button href={"/profile/" + id}> My Profile </Button>
+						<Button onClick={handleSearch}>Get Recipes! </Button>
+					</div>
+					<div className={classes.search}>
+						<div className={classes.searchIcon}>
+							<SearchIcon />
+						</div>
+						<InputBase
+							name="search"
+							value={search}
+							onChange={handleInput}
+							placeholder="Search…"
+							classes={{
+								root: classes.inputRoot,
+								input: classes.inputInput,
+							}}
+							inputProps={{ 'aria-label': 'search' }}
+						/>
+					</div>
+        		</Toolbar>
+      		</AppBar>
+		</div>
+	);
 }

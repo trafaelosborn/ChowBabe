@@ -195,7 +195,7 @@ function ResponsiveDrawer(props) {
           </Typography>
           
           <div>
-          <Button href="/createrecipe"> Create a Recipe </Button>
+          <Button href={"/createrecipe/" + id}> Create a Recipe </Button>
             <Button href={"/profile/"+id}> My Profile </Button>
           <Button >Get Recipes! </Button>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signin() {
   const classes = useStyles();
+
   /* State variables for auth form */
 	const [formObject, setFormObject] = useState({
 		email: "",
@@ -75,6 +76,16 @@ export default function Signin() {
 		e.preventDefault();
 		API.login(formObject)
 	}
+
+	// Check for token to see if user is logged in, then somehow get the id and redirect to profile...
+	const getLoggedOnUser = () => {
+		console.log('Signin getLoggedOnUser')
+		
+	}
+
+	useEffect(() => {
+		getLoggedOnUser();
+	}, [])
 
   return (
     <Grid container component="main" className={classes.root}>
