@@ -15,7 +15,7 @@ function App() {
           <Route exact path = "/signup" component = {Signup}/>
           <Route exact path = "/search" component = {Search}/>
           <Route exact path = "/profile/:id" component = {Profile}/>
-          <Route exact path = "/createrecipe" component = {CreateRecipe}/>
+          <Route exact path = "/createrecipe/:id" component = {CreateRecipe}/>
         </Switch>
       </div>
      </Router>
