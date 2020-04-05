@@ -5,6 +5,7 @@ import Signin from "./Components/Signin/Signin";
 import Signup from "./Components/Signup/Signup";
 import Search from "./Components/Search/Search";
 import Profile from "./Components/Profile/Profile";
+import RecipePage from "./Components/RecipePage/RecipePage";
 import CreateRecipe from "./Components/CreateRecipe/CreateRecipe";
 function App() {
 	return (
@@ -15,6 +16,7 @@ function App() {
 					<Route exact path="/signup" component={Signup} />
 					<Route exact path="/search/:id" component={Search} />
 					<Route exact path="/profile/:id" component={Profile} />
+					<Route exact path="/RecipePage" component={RecipePage} />
 					<Route exact path="/createrecipe/:id" component={CreateRecipe} />
 				</Switch>
 			</div>

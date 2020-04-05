@@ -49,8 +49,11 @@ export default function ProfileCard(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-        <FavoriteRoundedIcon  color="secondary"/>
+        
         <DeleteIcon />
+        <Button size="small" color="primary">
+					See Recipe
+				</Button>
         </CardActions>
       </Card>
     );
