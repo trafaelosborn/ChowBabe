@@ -1,4 +1,4 @@
-const axios = require("axios")
+const axios = require("axios");
 const express = require("express");
 const router = express.Router();
 const auth = require("../config/middleware/auth");
@@ -8,18 +8,19 @@ const Recipe = require("../models/Recipe");
 // @desc    Get all saved recipes
 // @access  Private
 //router.get("/find", auth, (req, res) => {
-	router.get("/find/:isCustom", (req, res) => {
-		// Gets custom OR saved recipes depending on value of isCustom
-		let findVal = { isCustom: req.params.isCustom }
-		// Returns custom and saved recipes
-		if ( req.params.isCustom === "all") findVal = {}
-		Recipe.find(findVal).then(function(data) {
-			res.json(data)
+router.get("/find/:isCustom", (req, res) => {
+	// Gets custom OR saved recipes depending on value of isCustom
+	let findVal = { isCustom: req.params.isCustom };
+	// Returns custom and saved recipes
+	if (req.params.isCustom === "all") findVal = {};
+	Recipe.find(findVal)
+		.then(function (data) {
+			res.json(data);
 		})
-		.catch(function(err){
-			console.log(err)
-		})
-	});
+		.catch(function (err) {
+			console.log(err);
+		});
+});
 
 // @route   GET /api/recipes/search/:searchterm
 // @desc    Search for recipes
@@ -32,7 +33,7 @@ router.get("/search/:searchterm", (req, res) => {
 				searchterm +
 				"&app_id=867a731f&app_key=8d8fa59906758f991bd7c52d34c5621f"
 		)
-		.then(response => {
+		.then((response) => {
 			res.json(response.data.hits);
 		});
 });
@@ -41,18 +42,34 @@ router.get("/search/:searchterm", (req, res) => {
 // @desc    Calculate recipe nutrition
 // @access  Public
 router.post("/calculate", (req, res) => {
-	axios.post("https://api.edamam.com/api/nutrition-details?app_id=66b96b13&app_key=78d4def55cec8e79502139f034b1812b", 
-		req.body, 
-		{ headers: { 'Content-Type': 'application/json' } })
-	.then(result => {
-		res.json(result.data);
-	}).catch(err => { 
-		console.log(err)
-		if ( err.response.status === 555) {
-			console.log('555 error: Recipe with insufficient quality to process correctly.')
-			res.json({error: 555});
-		}
-	})
+	axios
+		.post(
+			"https://api.edamam.com/api/nutrition-details?app_id=66b96b13&app_key=78d4def55cec8e79502139f034b1812b",
+			req.body,
+			{ headers: { "Content-Type": "application/json" } }
+		)
+		.then((result) => {
+			res.json(result.data);
+		})
+		.catch((err) => {
+			console.log(err);
+			if (err.response.status === 555) {
+				console.log("555 error: Recipe with insufficient quality to process correctly.");
+				res.json({ error: 555 });
+			}
+		});
+});
+
+// @route   POST /api/recipes/create
+// @desc    Create a new recipe and save to user profile
+// @access  Private
+// router.post("/create", auth, (req, res) => {
+router.post("/create", (req, res) => {
+	console.log("api recipes create");
+	console.log(req.body);
+	Recipe.create(req.body).then((data) => {
+		res.json(data);
+	});
 });
 
 // @route   POST /api/recipes/save
@@ -62,10 +79,35 @@ router.post("/calculate", (req, res) => {
 router.post("/save", (req, res) => {
 	console.log("api recipes save");
 	console.log(req.body);
-	Recipe.create(req.body).then((data) => {
-		res.json(data)
-	})
+	// Mongoose does not play well with the raw req data so we have to
+	// create a new object for it.
+	const newObj = {
+		thirdPartyRecipe: {
+			uri: req.body.thirdPartyRecipe.uri ? req.body.thirdPartyRecipe.uri : null,
+			label: req.body.thirdPartyRecipe.label ? req.body.thirdPartyRecipe.label : null,
+			image: req.body.thirdPartyRecipe.image ? req.body.thirdPartyRecipe.image : null,
+			source: req.body.thirdPartyRecipe.source ? req.body.thirdPartyRecipe.source : null,
+			yield: req.body.thirdPartyRecipe.yield ? req.body.thirdPartyRecipe.yield : null,
+			dietLabels: [req.body.thirdPartyRecipe.dietLabels]
+				? [req.body.thirdPartyRecipe.dietLabels]
+				: null,
+			healthLabels: [req.body.thirdPartyRecipe.healthLabels]
+				? [req.body.thirdPartyRecipe.healthLabels]
+				: null,
+			cautions: [req.body.thirdPartyRecipe.cautions]
+				? [req.body.thirdPartyRecipe.cautions]
+				: null,
+			ingredientLines: [req.body.thirdPartyRecipe.ingredientLines]
+				? [req.body.thirdPartyRecipe.ingredientLines]
+				: null,
+		},
+		isCustom: false,
+	};
+	Recipe.create(newObj)
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => console.log(err));
 });
-
 
 module.exports = router;
