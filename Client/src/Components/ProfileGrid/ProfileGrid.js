@@ -11,17 +11,19 @@ const gridStyle = {
 export default function ProfileGrid(props) {
 
 	const renderProfileGrid = () => {
-		return (<Grid container spacing={4} >
-			{props.recipes.map((item, index) => {
-				return <Grid items >
-					<ProfileCard 
-						recipeName={item.recipeName}
-						image={item.image}
-						dietLabels={item.dietLabels}
-					/>
-				</Grid>
-			})}
-			 </Grid>)
+		return (
+			<Grid container spacing={4} >
+				{props.recipes.map((item, index) => {
+					return <Grid items >
+						<ProfileCard 
+							recipeName={item.recipeName}
+							image={item.image}
+							dietLabels={item.dietLabels}
+						/>
+					</Grid>
+				})}
+			</Grid>
+		) 
 	}
 
     return (
