@@ -34,10 +34,7 @@ if (process.env.NODE_ENV === "production") {
 	// Set static folder
 	app.use(express.static("client/build"));
 
-	// server index.html from public folder
-	app.get("*", (req, res) => {
-		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-	});
+	 
 }
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
