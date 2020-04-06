@@ -10,7 +10,7 @@ const reciperoutes = require("./routes/recipes");
 app.use(express.json());
 
 // DB config
-const db = config.get("mongoURI");
+// const db = config.get("mongoURI");
 
 // connect to DB
 // mongoose
