@@ -32,7 +32,7 @@ app.use("/api/recipes", require("./routes/recipes"));
 // Server static assets if we're in production
 if (process.env.NODE_ENV === "production") {
 	// Set static folder
-	app.use(express.static("Client/build"));
+	app.use(express.static("client/build"));
 
 	 
 }
