@@ -33,8 +33,6 @@ app.use("/api/recipes", require("./routes/recipes"));
 if (process.env.NODE_ENV === "production") {
 	// Set static folder
 	app.use(express.static("client/build"));
-
-	 
 }
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

@@ -51,7 +51,7 @@ export default function ProfileCard(props) {
         <CardActions>
         
         <DeleteIcon />
-        <Button size="small" color="primary">
+        <Button size="small" color="primary" href={'/recipepage/'+props.id}>
 					See Recipe
 				</Button>
         </CardActions>

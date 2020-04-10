@@ -16,6 +16,7 @@ export default function ProfileGrid(props) {
 				{props.recipes.map((item, index) => {
 					return <Grid items >
 						<ProfileCard 
+							id={item.id}
 							recipeName={item.recipeName}
 							image={item.image}
 							dietLabels={item.dietLabels}

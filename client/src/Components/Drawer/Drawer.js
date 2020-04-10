@@ -126,8 +126,10 @@ function ResponsiveDrawer(props) {
 		API.getRecipes(category, id).then((results) => {
 			const newArr = results.data.map((item, index) => {
 				if (item.isCustom) {
+					console.log('drawer handleclick itemid')
+					console.log(item._id)
 					return {
-						key: index,
+						key: item._id,
 						recipeName: item.recipeName,
 						dietLabels: "Custom Recipe",
 						image:
@@ -135,7 +137,7 @@ function ResponsiveDrawer(props) {
 					};
 				} else {
 					return {
-						key: index,
+						id: item._id,
 						recipeName: item.thirdPartyRecipe.label
 							? item.thirdPartyRecipe.label
 							: "Recipe Name",
