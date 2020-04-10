@@ -9,19 +9,19 @@ const port = process.env.PORT || 3001;
 app.use(express.json());
 
 // DB config
-const db = config.get("mongoURI");
+//const db = config.get("mongoURI");
 
 // connect to DB
-mongoose
+/* mongoose
 	.connect(db, {
 		useNewUrlParser: true,
 		useCreateIndex: true,
 		useUnifiedTopology: true
 	})
 	.then(() => console.log("mongodb connected"))
-	.catch(err => console.log(err));
+	.catch(err => console.log(err)); */
 
-//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/recipedb");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/recipedb");
 
 // use routes
 app.use("/api/users", require("./routes/users"));

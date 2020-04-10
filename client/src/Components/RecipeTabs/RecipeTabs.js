@@ -66,7 +66,9 @@ const theme = useTheme();
 						: "https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg",
 					ingredientLines: recipe.data.ingredientItems ?
 					recipe.data.ingredientItems : "No ingredients found",
-					directionLines: recipe.data.directionItems ? recipe.data.directionItems : "No directions found" 
+					directionLines: recipe.data.directionItems ? recipe.data.directionItems : "No directions found", 
+					totalNutrients: recipe.data.totalNutrients ? recipe.data.totalNutrients : null,
+					totalDaily: recipe.data.totalDaily ? recipe.data.totalDaily : null
 				})
 			}
 			

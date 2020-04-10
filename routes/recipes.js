@@ -35,8 +35,6 @@ router.get("/find/:isCustom", (req, res) => {
 		// Gets recipe data for the given recipeId
 		Recipe.findById(id)
 			.then(data => {
-				console.log('api recipes find by id: ' + id);
-				console.log(data)
 				res.json(data);
 			})
 			.catch( err => {
@@ -59,20 +57,33 @@ router.get("/search/:searchterm", (req, res) => {
 		});
 });
 
-// @route   POST /api/recipes/calculate
-// @desc    Calculate recipe nutrition
-// @access  Public
-router.post("/calculate", (req, res) => {
-	console.log('calculate recipe:')
-	console.log(req.body)
-	axios
+// @route   POST /api/recipes/create
+// @desc    Create a new recipe and save to user profile
+// @access  Private
+// router.post("/create", auth, (req, res) => {
+router.post("/create", (req, res) => {
+	// Create doc in mongo then get nutrient info and update by the new _id
+	Recipe.create(req.body).then(newDoc => {
+		// build nutrient api request object
+		const calcObj = {
+			title: newDoc.recipeName,
+			ingr: newDoc.ingredientItems,
+			prep: newDoc.directionItems		
+		}
+		axios
 		.post(
 			"https://api.edamam.com/api/nutrition-details?app_id=" + calcAppId + "&app_key=" + calcApiKey,
-			req.body,
+			calcObj,
 			{ headers: { "Content-Type": "application/json" } }
 		)
 		.then((result) => {
-			res.json(result.data);
+			// Update totalNutrients with the results of the nutrient query
+			Recipe.findByIdAndUpdate({_id: newDoc._id}, {
+					totalNutrients: result.data.totalNutrients, 
+					totalDaily: result.data.totalDaily
+				}).then( docToUpdate => {
+					res.json(docToUpdate);
+				})	
 		})
 		.catch((err) => {
 			console.log(err);
@@ -81,18 +92,9 @@ router.post("/calculate", (req, res) => {
 				res.json({ error: 555 });
 			}
 		});
-});
-
-// @route   POST /api/recipes/create
-// @desc    Create a new recipe and save to user profile
-// @access  Private
-// router.post("/create", auth, (req, res) => {
-router.post("/create", (req, res) => {
-	console.log("api recipes create");
-	console.log(req.body);
-	Recipe.create(req.body).then((data) => {
-		res.json(data);
-	});
+	}).catch(err => { console.log(err) });
+	
+	
 });
 
 // @route   POST /api/recipes/save
@@ -100,8 +102,6 @@ router.post("/create", (req, res) => {
 // @access  Private
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
-	console.log("api recipes save");
-	console.log(req.body);
 	// Mongoose does not play well with the raw req data so we have to
 	// create a new object for it.
 	const newObj = {

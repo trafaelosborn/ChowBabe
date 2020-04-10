@@ -26,7 +26,6 @@ import ProfileGrid from "../ProfileGrid/ProfileGrid";
 import SearchGrid from "../SearchGrid/SearchGrid";
 import { useParams } from "react-router-dom";
 import API from "../../Utils/api";
-import Test from "../Test/Test";
 
 const drawerWidth = 240;
 
@@ -253,7 +252,6 @@ function ResponsiveDrawer(props) {
 			</nav>
 			<main className={classes.content}>
 				<ProfileGrid recipes={recipes} />
-				<Test />
 			</main>
 		</div>
 	);

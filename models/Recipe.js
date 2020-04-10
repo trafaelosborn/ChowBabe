@@ -14,9 +14,14 @@ const RecipeSchema = new Schema({
 	},
 	isCustom: {
 		type: Boolean,
-	default : false
+		default : false
 	},
-
+	totalNutrients: {
+		type: Schema.Types.Mixed
+	},
+	totalDaily: {
+		type: Schema.Types.Mixed
+	},
 	thirdPartyRecipe: {
 		type: Schema.Types.Mixed
 	}
