@@ -22,6 +22,24 @@ router.get("/find/:isCustom", (req, res) => {
 		});
 });
 
+// @route   POST /api/recipes/findById/:id
+// @desc    Get recipe from DB
+// @access  Private
+//router.get("/findById/:id", auth, (req, res) => {
+	router.get("/findById/:id", (req, res) => {
+		const id = req.params.id;
+		// Gets recipe data for the given recipeId
+		Recipe.findById(id)
+			.then(data => {
+				console.log('api recipes find by id: ' + id);
+				console.log(data)
+				res.json(data);
+			})
+			.catch( err => {
+				console.log(err);
+			});
+	});
+
 // @route   GET /api/recipes/search/:searchterm
 // @desc    Search for recipes
 // @access  Public

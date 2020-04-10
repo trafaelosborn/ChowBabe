@@ -10,7 +10,7 @@ export default function RecipePage() {
     return (
         <div>
             <Navbar />
-            <RecipeTabs />
+            <RecipeTabs recipeId={id}/>
         </div>
     )
 }

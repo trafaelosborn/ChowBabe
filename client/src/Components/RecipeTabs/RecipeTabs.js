@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { Container } from '@material-ui/core';
@@ -14,6 +14,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import API from '../../Utils/api';
 
 const useStyles = makeStyles({
   root: {
@@ -26,19 +27,50 @@ const containerStyle = {
     marginTop: '5%'
 }
 
-export default function RecipeTabs() {
+export default function RecipeTabs(props) {
     
 const theme = useTheme();
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [recipe, setRecipe] = React.useState({});
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  // get recipe info using props.recipeId
+  useEffect(() => {
+	API.getRecipeById(props.recipeId)
+		.then(recipe => {
+			if (!recipe.data.isCustom) {
+				setRecipe({
+					recipeName: recipe.data.thirdPartyRecipe.label ? recipe.data.thirdPartyRecipe.label 
+						: "Unnamed Recipe",
+					image: recipe.data.thirdPartyRecipe.image ? recipe.data.thirdPartyRecipe.image 
+						: "https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg",
+					// ingredientLines is an array of arrays. Use concat to flatten in to a single array
+					ingredientLines: recipe.data.thirdPartyRecipe.ingredientLines ?
+					[].concat(...recipe.data.thirdPartyRecipe.ingredientLines) : "No ingredients found"
+				})
+			} else {
+				setRecipe({
+					recipeName: recipe.data.recipeName ? recipe.data.recipeName : "Unnamed Recipe",
+					image: recipe.data.image ? recipe.data.image 
+						: "https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg",
+					ingredientLines: recipe.data.ingredientItems ?
+					recipe.data.ingredientItems : "No ingredients found",
+					directionLines: recipe.data.directionItems ? recipe.data.directionItems : "No directions found" 
+				})
+			}
+			
+		})
+		.catch(err => console.log(err));
+}, []);
+
   function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-    return (
+	const { children, value, index, ...other } = props;
+
+	return (
         <Typography
           component="div"
           role="tabpanel"
@@ -88,29 +120,27 @@ const theme = useTheme();
         <TabPanel value={value} index={0} dir={theme.direction}>
           
           <Container maxWidth="sm">
-            <div ><img src="https://www.edamam.com/web-img/482/482417e9943411f0e7db4be74a7b5114.jpg" style={imageStyle}></img></div>
+			<div ><img src={recipe.image} style={imageStyle}></img></div>
           <div style={headerStyle}>
-            <h1>Caramel Cake</h1>
+            <h1>{recipe.recipeName ? recipe.recipeName : "Unnamed Recipe"}</h1>
           </div>
-          <div>
-            <h2>Ingredients</h2>           
-          </div>
-          <ul>
-              <li>2 tbsp sifted cake flour,for cake</li>
-              <li>2 cup sifted cake flour(not self-rising; sift before measuring),for cake</li>
-              <li>1 tsp Baking Powder,for cake</li>
-              <li>3/4 tsp Baking Soda,for cake</li>
-              <li>1/2 tsp Salt,for cake</li>
-              <li>1 stick unsalted butter, softened(4 oz),for cake</li>
+			<div>
+				<h2>Ingredients</h2>           
+			</div>
+			<ul>
+				{recipe.ingredientLines ? recipe.ingredientLines.map(item => {
+					return (<li>{item}</li>)
+				}) : null}
             </ul>
-          <div>
-            <h2>Directions</h2>           
-          </div>
-          <ol>
-              <li>Mix Cake</li>
-              <li>Cook Cake</li>
-              <li>Eat Cake</li>
-            </ol>
+			  {recipe.directionLines ? 
+				(<><div>
+					<h2>Directions</h2>           
+				</div>
+				<ol>
+				{recipe.directionLines.map(item => {
+					return (<li>{item}</li>)
+				})}
+				</ol></>) : null}
           </Container>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>

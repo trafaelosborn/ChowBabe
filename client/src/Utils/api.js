@@ -27,6 +27,13 @@ export default {
 			headers: { "Content-Type": "application/json" },
 		});
 	},
+	
+	// Get a single recipe by id
+	getRecipeById: function (id) {
+		return axios.get("/api/recipes/findById/" + id, {
+			headers: { "Content-Type": "application/json" },
+		});
+	},
 
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
