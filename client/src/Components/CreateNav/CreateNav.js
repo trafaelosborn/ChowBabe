@@ -94,9 +94,9 @@ export default function SearchAppBar({search, handleSearch, handleInput}) {
 						</Typography>
 					</div>
 					<div>
-						<Button href={"/createrecipe/" + id}> Create a Recipe </Button>
-						<Button href={"/profile/" + id}> My Profile </Button>
-						<Button href={"/search/" + id}> Find Recipes! </Button>
+						<Button href="/createrecipe/"> Create a Recipe </Button>
+						<Button href="/profile"> My Profile </Button>
+						<Button href="/search"> Find Recipes! </Button>
 					</div>
 					<div className={classes.search}>
 						<div className={classes.searchIcon}>

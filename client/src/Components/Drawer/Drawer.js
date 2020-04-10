@@ -125,8 +125,6 @@ function ResponsiveDrawer(props) {
 		API.getRecipes(category, id).then((results) => {
 			const newArr = results.data.map((item, index) => {
 				if (item.isCustom) {
-					console.log('drawer handleclick itemid')
-					console.log(item._id)
 					return {
 						id: item._id,
 						recipeName: item.recipeName,
@@ -213,9 +211,9 @@ function ResponsiveDrawer(props) {
 					</Typography>
 
 					<div>
-						<Button href={"/createrecipe/" + id}> Create a Recipe </Button>
-						<Button href={"/profile/" + id}> My Profile </Button>
-						<Button href={"/search/" + id}> Find Recipes! </Button>
+						<Button href="/createrecipe/"> Create a Recipe </Button>
+						<Button href="/profile/"> My Profile </Button>
+						<Button href="/search/"> Find Recipes! </Button>
 					</div>
 				</Toolbar>
 			</AppBar>

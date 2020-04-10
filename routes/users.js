@@ -92,8 +92,17 @@ router.get("/info/:id", auth, (req, res) => {
 		.then(user => res.json(user))
 		.catch(err => res.status(422).json(err));
 });
-// commenting for now because the above works and I haven't worked out
-// auth middleware on a controller yet
-//router.route("/info/:id").get(userController.findById);
+
+// @route   GET api/users/info/
+// @desc    Get user data. Takes token from client and gets ID in middleware
+// @access  Private
+router.get("/info/", auth, (req, res) => {
+	console.log('get api user info pass token');
+	console.log(req.user.id)
+	User.findById(req.user.id)
+		.select("-password")
+		.then(user => res.json(user))
+		.catch(err => res.status(422).json(err));
+});
 
 module.exports = router;

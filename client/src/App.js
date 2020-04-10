@@ -14,10 +14,10 @@ function App() {
 				<Switch>
 					<Route exact path="/" component={Signin} />
 					<Route exact path="/signup" component={Signup} />
-					<Route exact path="/search/:id" component={Search} />
-					<Route exact path="/profile/:id" component={Profile} />
+					<Route exact path="/search" component={Search} />
+					<Route exact path="/profile" component={Profile} />
 					<Route exact path="/RecipePage/:id" component={RecipePage} />
-					<Route exact path="/createrecipe/:id" component={CreateRecipe} />
+					<Route exact path="/createrecipe" component={CreateRecipe} />
 				</Switch>
 			</div>
 		</Router>

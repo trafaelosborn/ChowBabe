@@ -18,6 +18,7 @@ function auth(req, res, next) {
         req.user = decoded;
         next();
     } catch(e) {
+		console.log('middleware: auth failed')
         res.status(400).json({ msg: 'Token is not valid'});
     }   
 }

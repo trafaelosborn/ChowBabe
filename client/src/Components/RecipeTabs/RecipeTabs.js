@@ -153,11 +153,6 @@ const theme = useTheme();
         <h1>Nutrition</h1>
         <TableContainer component={Paper}>
 			<Table className={classes.table} size="small" aria-label="a dense table">
-				{recipe.calories ?
-				(<TableRow>
-					<TableCell align="left">Calories</TableCell>
-					<TableCell align="left">{recipe.calories}</TableCell>
-				</TableRow>) : null}
 				{recipe.totalNutrients ? Object.keys(recipe.totalNutrients).map(key => {
 					if (recipe.totalNutrients[key].label === "Energy") {
 						return (<TableRow>
@@ -170,7 +165,7 @@ const theme = useTheme();
 								<TableCell  align="left">{Math.floor(recipe.totalNutrients[key].quantity)}&nbsp;{recipe.totalNutrients[key].unit}</TableCell>
 							</TableRow>)
 					}
-					}) : null}
+				}) : null}
 			</Table>
 		</TableContainer>
     </Container>

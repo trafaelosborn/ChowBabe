@@ -38,12 +38,11 @@ export default {
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
 		axios.post("/api/recipes/create", recipeData).then(result => {
-			console.log('create recipe api result')
 			console.log(result)
 		});
 	},
 
-	// Save a custom recipe found via the API
+	// Save a recipe found via the API
 	saveRecipe: function (recipeData) {
 		axios.post("/api/recipes/save", recipeData);
 	},
@@ -55,7 +54,7 @@ export default {
 			.post("/api/users", userData, { headers: { "Content-Type": "application/json" } })
 			.then((res) => {
 				// set local storage using id as key
-				localStorage.setItem(res.data.user.id, res.data.token);
+				localStorage.setItem("recipetoken", res.data.token);
 				// redirect to user profile
 				axios
 					.get("/api/users/profile/" + res.data.user.id, {
@@ -76,7 +75,7 @@ export default {
 				const id = res.data.user.id;
 				const token = res.data.token;
 				// Save token so we can access it later
-				localStorage.setItem(res.data.user.id, token);
+				localStorage.setItem("recipetoken", token);
 				// redirect to user's profile
 				axios
 					.get("/api/users/profile/" + id, { headers: { "x-auth-token": token } })
@@ -87,10 +86,19 @@ export default {
 			});
 	},
 
-	// Get user info
+	// Get user info. Use id to look up specific user. Pass token to verify current user's status.
 	getUserInfo: function (id) {
-		// Using hard coded token until I store it somewhere...
-		const token = localStorage.getItem(id);
+		console.log('client api getUserInfo')
+		const token = localStorage.getItem('recipetoken');
 		return axios.get("/api/users/info/" + id, { headers: { "x-auth-token": token } });
 	},
+
+	// Get logged in user's info 
+	getUserId: function () {
+		console.log('client api getUserId')
+		const token = localStorage.getItem("recipetoken");
+		return axios.get("/api/users/info/", { headers: { "x-auth-token": token } });
+	},
+
+	
 };

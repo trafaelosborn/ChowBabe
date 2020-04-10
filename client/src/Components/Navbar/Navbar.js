@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -70,10 +70,31 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SearchAppBar({search, handleSearch, handleInput}) {
-  	const classes = useStyles();
-  	const { id } = useParams();
 
+
+export default function SearchAppBar({search, handleSearch, handleInput}) {
+
+	const [ user, setUser ] = useState({firstName:"", lastName:"", id:"", email:""});
+
+	const getLoggedOnUserId = () => {
+		API.getUserId().then(result => {
+			setUser({
+				firstName: result.data.firstName,
+				lastName: result.data.lastName,
+				id: result.data._id,
+				email: result.data.email
+			})
+		})
+	}
+
+	useEffect(() => {
+		getLoggedOnUserId();
+	}, [])
+
+  	const classes = useStyles();
+	  const curr_user = {user};
+	  console.log('navbar Curr_user')
+	console.log(curr_user.user.id)
 	return (
     	<div className={classes.root}>
       		<AppBar position="fixed">
@@ -94,8 +115,8 @@ export default function SearchAppBar({search, handleSearch, handleInput}) {
 						</Typography>
 					</div>
 					<div>
-						<Button href={"/createrecipe/" + id}> Create a Recipe </Button>
-						<Button href={"/profile/" + id}> My Profile </Button>
+						<Button href="/createrecipe"> Create a Recipe </Button>
+						<Button href="/profile"> My Profile </Button>
 						<Button onClick={handleSearch}>Get Recipes! </Button>
 					</div>
 					<div className={classes.search}>
