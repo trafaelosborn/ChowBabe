@@ -43,6 +43,8 @@ const theme = useTheme();
 	API.getRecipeById(props.recipeId)
 		.then(recipe => {
 			if (!recipe.data.isCustom) {
+				console.log('recipetabs getrecipebyid: ');
+				console.log(recipe.data.thirdPartyRecipe)
 				setRecipe({
 					recipeName: recipe.data.thirdPartyRecipe.label ? recipe.data.thirdPartyRecipe.label 
 						: "Unnamed Recipe",
@@ -50,9 +52,14 @@ const theme = useTheme();
 						: "https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg",
 					// ingredientLines is an array of arrays. Use concat to flatten in to a single array
 					ingredientLines: recipe.data.thirdPartyRecipe.ingredientLines ?
-					[].concat(...recipe.data.thirdPartyRecipe.ingredientLines) : "No ingredients found"
+					[].concat(...recipe.data.thirdPartyRecipe.ingredientLines) : "No ingredients found",
+					calories: recipe.data.thirdPartyRecipe.calories ? Math.floor(recipe.data.thirdPartyRecipe.calories) : null,
+					totalNutrients: recipe.data.thirdPartyRecipe.totalNutrients ? recipe.data.thirdPartyRecipe.totalNutrients : null,
+					totalDaily: recipe.data.thirdPartyRecipe.totalDaily ? recipe.data.thirdPartyRecipe.totalDaily : null
 				})
 			} else {
+				console.log('recipetabs getrecipebyid: ');
+				console.log(recipe.data)
 				setRecipe({
 					recipeName: recipe.data.recipeName ? recipe.data.recipeName : "Unnamed Recipe",
 					image: recipe.data.image ? recipe.data.image 
@@ -94,9 +101,8 @@ const theme = useTheme();
     const imageStyle = {
       display: 'block',
       margin: '0 auto'
-    }
-
-    const calories = "4210"
+	}
+	
   return (
     <div >
       <Container style = {containerStyle} ></Container>
@@ -147,134 +153,21 @@ const theme = useTheme();
           <Container maxWidth="sm">
         <h1>Nutrition</h1>
         <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
-        
-          <TableRow>
-            <TableCell align="left">Calories</TableCell>
-            <TableCell  align="left">{calories}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Total fat</TableCell>
-            <TableCell  align="left">194g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Saturated Fat</TableCell>
-            <TableCell  align="left">117g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Trans Fat</TableCell>
-            <TableCell  align="left">3g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Monosaturated Fat</TableCell>
-            <TableCell  align="left">53g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">PolySaturated Fat</TableCell>
-            <TableCell  align="left">9g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Carbs</TableCell>
-            <TableCell  align="left">475g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Total Sugars</TableCell>
-            <TableCell  align="left">343g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Added Sugars</TableCell>
-            <TableCell  align="left">323g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Protein</TableCell>
-            <TableCell  align="left">53g</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Cholesterol</TableCell>
-            <TableCell  align="left">951mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Sodium</TableCell>
-            <TableCell  align="left">3106mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Calcium</TableCell>
-            <TableCell  align="left">999mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Magnesium</TableCell>
-            <TableCell  align="left">343mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Phosphorus</TableCell>
-            <TableCell  align="left">1299mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Potassium</TableCell>
-            <TableCell  align="left">1182mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Iron</TableCell>
-            <TableCell  align="left">24mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Zinc</TableCell>
-            <TableCell  align="left">3mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin A</TableCell>
-          <TableCell  align="left">1948</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin C</TableCell>
-            <TableCell  align="left">3mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Thiamin (B1)</TableCell>
-            <TableCell  align="left">3mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Riboflavin (B2)</TableCell>
-            <TableCell  align="left">5mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Niacin (B3)</TableCell>
-            <TableCell  align="left">343mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin B6</TableCell>
-            <TableCell  align="left">0.5mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Folate Equivalent (total)</TableCell>
-            <TableCell  align="left">894</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Folate (food)</TableCell>
-            <TableCell  align="left">210</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Folic Acid</TableCell>
-            <TableCell  align="left">401</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin B12</TableCell>
-            <TableCell  align="left">2.05</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin D</TableCell>
-            <TableCell  align="left">216 IU</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin E</TableCell>
-            <TableCell  align="left">6.3mg</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">Vitamin K</TableCell>
-            <TableCell  align="left">16.3mg</TableCell>
-          </TableRow>
-      </Table>
-    </TableContainer>
+			<Table className={classes.table} size="small" aria-label="a dense table">
+				<TableRow>
+					<TableCell align="left">Calories</TableCell>
+					<TableCell  align="left">{recipe.calories}</TableCell>
+				</TableRow>
+				
+				{recipe.totalNutrients ? Object.keys(recipe.totalNutrients).map(key => {
+					return (<TableRow>
+							<TableCell align="left">{recipe.totalNutrients[key].label}</TableCell>
+							<TableCell  align="left">{Math.floor(recipe.totalNutrients[key].quantity)}&nbsp;{recipe.totalNutrients[key].unit}</TableCell>
+						</TableRow>)
+					}) : null
+				}
+			</Table>
+		</TableContainer>
     </Container>
         </TabPanel>
         

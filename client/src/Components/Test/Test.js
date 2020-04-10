@@ -33,7 +33,7 @@ export default function Test () {
 			  "1 cup chicken broth, homemade or low-sodium canned"
 			]
 		  }
-
+		  console.log('test');
 		API.getNutrition(recipeInfo)
 			.then(results => {
 				setNutritionInfo(results.data);

@@ -37,6 +37,8 @@ export default {
 
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
+		console.log('client api create recipe')
+		console.log(recipeData)
 		axios.post("/api/recipes/create", recipeData);
 	},
 

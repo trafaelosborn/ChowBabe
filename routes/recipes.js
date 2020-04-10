@@ -3,6 +3,10 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../config/middleware/auth");
 const Recipe = require("../models/Recipe");
+const apiKey = "8d8fa59906758f991bd7c52d34c5621f";
+const calcApiKey = '78d4def55cec8e79502139f034b1812b';
+const searchAppId = "867a731f";
+const calcAppId = "66b96b13";
 
 // @route   POST /api/recipes/find
 // @desc    Get all saved recipes
@@ -48,8 +52,7 @@ router.get("/search/:searchterm", (req, res) => {
 	axios
 		.get(
 			"https://api.edamam.com/search?q=" +
-				searchterm +
-				"&app_id=867a731f&app_key=8d8fa59906758f991bd7c52d34c5621f"
+				searchterm + "&app_id=" + searchAppId + "&app_key=" + apiKey
 		)
 		.then((response) => {
 			res.json(response.data.hits);
@@ -60,9 +63,11 @@ router.get("/search/:searchterm", (req, res) => {
 // @desc    Calculate recipe nutrition
 // @access  Public
 router.post("/calculate", (req, res) => {
+	console.log('calculate recipe:')
+	console.log(req.body)
 	axios
 		.post(
-			"https://api.edamam.com/api/nutrition-details?app_id=66b96b13&app_key=78d4def55cec8e79502139f034b1812b",
+			"https://api.edamam.com/api/nutrition-details?app_id=" + calcAppId + "&app_key=" + calcApiKey,
 			req.body,
 			{ headers: { "Content-Type": "application/json" } }
 		)
@@ -118,6 +123,9 @@ router.post("/save", (req, res) => {
 			ingredientLines: [req.body.thirdPartyRecipe.ingredientLines]
 				? [req.body.thirdPartyRecipe.ingredientLines]
 				: null,
+			calories: req.body.thirdPartyRecipe.calories ? req.body.thirdPartyRecipe.calories : null,
+			totalNutrients: req.body.thirdPartyRecipe.totalNutrients ? req.body.thirdPartyRecipe.totalNutrients : null,
+			totalDaily: req.body.thirdPartyRecipe.totalDaily ? req.body.thirdPartyRecipe.totalDaily : null
 		},
 		isCustom: false,
 	};
