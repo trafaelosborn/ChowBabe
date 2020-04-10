@@ -43,8 +43,6 @@ const theme = useTheme();
 	API.getRecipeById(props.recipeId)
 		.then(recipe => {
 			if (!recipe.data.isCustom) {
-				console.log('recipetabs getrecipebyid: ');
-				console.log(recipe.data.thirdPartyRecipe)
 				setRecipe({
 					recipeName: recipe.data.thirdPartyRecipe.label ? recipe.data.thirdPartyRecipe.label 
 						: "Unnamed Recipe",
@@ -58,8 +56,6 @@ const theme = useTheme();
 					totalDaily: recipe.data.thirdPartyRecipe.totalDaily ? recipe.data.thirdPartyRecipe.totalDaily : null
 				})
 			} else {
-				console.log('recipetabs getrecipebyid: ');
-				console.log(recipe.data)
 				setRecipe({
 					recipeName: recipe.data.recipeName ? recipe.data.recipeName : "Unnamed Recipe",
 					image: recipe.data.image ? recipe.data.image 
@@ -67,6 +63,7 @@ const theme = useTheme();
 					ingredientLines: recipe.data.ingredientItems ?
 					recipe.data.ingredientItems : "No ingredients found",
 					directionLines: recipe.data.directionItems ? recipe.data.directionItems : "No directions found", 
+					calories: recipe.data.calories ? recipe.data.calories : null,
 					totalNutrients: recipe.data.totalNutrients ? recipe.data.totalNutrients : null,
 					totalDaily: recipe.data.totalDaily ? recipe.data.totalDaily : null
 				})
@@ -156,18 +153,24 @@ const theme = useTheme();
         <h1>Nutrition</h1>
         <TableContainer component={Paper}>
 			<Table className={classes.table} size="small" aria-label="a dense table">
-				<TableRow>
+				{recipe.calories ?
+				(<TableRow>
 					<TableCell align="left">Calories</TableCell>
-					<TableCell  align="left">{recipe.calories}</TableCell>
-				</TableRow>
-				
+					<TableCell align="left">{recipe.calories}</TableCell>
+				</TableRow>) : null}
 				{recipe.totalNutrients ? Object.keys(recipe.totalNutrients).map(key => {
-					return (<TableRow>
-							<TableCell align="left">{recipe.totalNutrients[key].label}</TableCell>
+					if (recipe.totalNutrients[key].label === "Energy") {
+						return (<TableRow>
+							<TableCell align="left">Calories</TableCell>
 							<TableCell  align="left">{Math.floor(recipe.totalNutrients[key].quantity)}&nbsp;{recipe.totalNutrients[key].unit}</TableCell>
 						</TableRow>)
-					}) : null
-				}
+					} else {
+						return (<TableRow>
+								<TableCell align="left">{recipe.totalNutrients[key].label}</TableCell>
+								<TableCell  align="left">{Math.floor(recipe.totalNutrients[key].quantity)}&nbsp;{recipe.totalNutrients[key].unit}</TableCell>
+							</TableRow>)
+					}
+					}) : null}
 			</Table>
 		</TableContainer>
     </Container>

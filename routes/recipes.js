@@ -61,7 +61,7 @@ router.get("/search/:searchterm", (req, res) => {
 // @desc    Create a new recipe and save to user profile
 // @access  Private
 // router.post("/create", auth, (req, res) => {
-router.post("/create", (req, res) => {
+/* router.post("/create", (req, res) => {
 	// Create doc in mongo then get nutrient info and update by the new _id
 	Recipe.create(req.body).then(newDoc => {
 		// build nutrient api request object
@@ -79,6 +79,7 @@ router.post("/create", (req, res) => {
 		.then((result) => {
 			// Update totalNutrients with the results of the nutrient query
 			Recipe.findByIdAndUpdate({_id: newDoc._id}, {
+					calories: result.data.calories,
 					totalNutrients: result.data.totalNutrients, 
 					totalDaily: result.data.totalDaily
 				}).then( docToUpdate => {
@@ -93,9 +94,42 @@ router.post("/create", (req, res) => {
 			}
 		});
 	}).catch(err => { console.log(err) });
-	
-	
-});
+}); */
+
+// @route   POST /api/recipes/create
+// @desc    Create a new recipe and save to user profile
+// @access  Private
+// router.post("/create", auth, (req, res) => {
+router.post("/create", (req, res) => {
+	// Run recipe through nutrition API to handle any errors before sending it to the DB
+	axios.post("https://api.edamam.com/api/nutrition-details?app_id=" + calcAppId + "&app_key=" + calcApiKey,
+		{
+			title: req.body.recipeName,
+			ingr: req.body.ingredientItems,
+			prep: req.body.directionItems		
+		},{ headers: { "Content-Type": "application/json" } })
+		.then((result) => {
+			// If the request was successful, add the new recipe + nutrition data to DB
+			Recipe.create({
+					recipeName: req.body.recipeName,
+					ingredientItems: req.body.ingredientItems,
+					directionItems: req.body.directionItems,
+					isCustom: true,
+					totalNutrients: result.data.totalNutrients, 
+					totalDaily: result.data.totalDaily
+				}).then( queryResult => {
+					res.json(queryResult);
+				})	
+		})
+		.catch((err) => {
+			console.log(err);
+			if (err.response.status === 555) {
+				console.log("555 error: Recipe with insufficient quality to process correctly.");
+				res.json({ error: 555 });
+			}
+		});
+	})
+
 
 // @route   POST /api/recipes/save
 // @desc    Save recipes to user profile
