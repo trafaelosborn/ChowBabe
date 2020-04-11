@@ -79,7 +79,8 @@ export default function SignIn() {
             directionItems,
             isCustom : true
         }
-		API.createRecipe(recipeData);
+        API.createRecipe(recipeData);
+        alert("Your recipe has been created!")
     }
 
 

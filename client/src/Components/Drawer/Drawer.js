@@ -149,7 +149,7 @@ function ResponsiveDrawer(props) {
 						recipeName: item.recipeName,
 						dietLabels: "Custom Recipe",
 						image:
-							"https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg",
+							"https://unsplash.com/photos/uQs1802D0CQ",
 					};
 				} else {
 					return {
