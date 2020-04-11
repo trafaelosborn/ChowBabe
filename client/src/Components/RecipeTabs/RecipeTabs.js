@@ -59,7 +59,7 @@ const theme = useTheme();
 				setRecipe({
 					recipeName: recipe.data.recipeName ? recipe.data.recipeName : "Unnamed Recipe",
 					image: recipe.data.image ? recipe.data.image 
-						: "https://img1.looper.com/img/gallery/the-untold-truth-of-gremlins/intro-1537807042.jpg",
+						: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80",
 					ingredientLines: recipe.data.ingredientItems ?
 					recipe.data.ingredientItems : "No ingredients found",
 					directionLines: recipe.data.directionItems ? recipe.data.directionItems : "No directions found", 

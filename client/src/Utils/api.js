@@ -85,14 +85,12 @@ export default {
 
 	// Get user info. Use id to look up specific user. Pass token to verify current user's status.
 	getUserInfo: function (id) {
-		console.log('client api getUserInfo')
 		const token = localStorage.getItem('recipetoken');
 		return axios.get("/api/users/info/" + id, { headers: { "x-auth-token": token } });
 	},
 
 	// Get logged in user's info 
 	getUserId: function () {
-		console.log('client api getUserId')
 		const token = localStorage.getItem("recipetoken");
 		return axios.get("/api/users/info/", { headers: { "x-auth-token": token } });
 	},

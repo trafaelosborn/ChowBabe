@@ -93,8 +93,6 @@ router.get("/info/:id", auth, (req, res) => {
 // @desc    Get user data. Takes token from client and gets ID in middleware
 // @access  Private
 router.get("/info/", auth, (req, res) => {
-	console.log('get api user info pass token');
-	console.log(req.user.id)
 	User.findById(req.user.id)
 		.select("-password")
 		.then(user => res.json(user))
