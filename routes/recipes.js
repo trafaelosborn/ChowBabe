@@ -8,6 +8,15 @@ const calcApiKey = '78d4def55cec8e79502139f034b1812b';
 const searchAppId = "867a731f";
 const calcAppId = "66b96b13";
 
+// Helper function for replacing bad json key in API response
+const sugarReplacer = (totalNutrients) => {
+	if ( totalNutrients['SUGAR.added']) { 
+		totalNutrients['SUGARADDED'] = totalNutrients['SUGAR.added']
+		delete totalNutrients['SUGAR.added'];
+	}
+	return totalNutrients;
+}
+
 // @route   POST /api/recipes/find
 // @desc    Get all saved recipes
 // @access  Private
@@ -70,6 +79,8 @@ router.post("/create", (req, res) => {
 			prep: req.body.directionItems		
 		},{ headers: { "Content-Type": "application/json" } })
 		.then((result) => {
+			// Sanitize API response before sending to mongo
+			const nutrients = sugarReplacer(result.data.totalNutrients)
 			// If the request was successful, add the new recipe + nutrition data to DB
 			Recipe.create({
 					recipeName: req.body.recipeName,
@@ -77,7 +88,8 @@ router.post("/create", (req, res) => {
 					directionItems: req.body.directionItems,
 					isCustom: true,
 					image: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80",
-					totalNutrients: result.data.totalNutrients, 
+					//totalNutrients: result.data.totalNutrients, 
+					totalNutrients: nutrients, 
 					totalDaily: result.data.totalDaily
 				}).then( queryResult => {
 					res.json(queryResult);
@@ -92,14 +104,14 @@ router.post("/create", (req, res) => {
 		});
 	})
 
-
 // @route   POST /api/recipes/save
 // @desc    Save recipes to user profile
 // @access  Private
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
-	console.log('server api recipes save');
-	console.log(req.body)
+	// Sanitize API response before sending to mongo
+	const nutrients = sugarReplacer(req.body.thirdPartyRecipe.totalNutrients)
+
 	// Mongoose does not play well with the raw req data so we have to
 	// create a new object for it.
 	const newObj = {
@@ -122,7 +134,8 @@ router.post("/save", (req, res) => {
 				? [req.body.thirdPartyRecipe.ingredientLines]
 				: null,
 			calories: req.body.thirdPartyRecipe.calories ? req.body.thirdPartyRecipe.calories : null,
-			totalNutrients: req.body.thirdPartyRecipe.totalNutrients ? req.body.thirdPartyRecipe.totalNutrients : null,
+			//totalNutrients: req.body.thirdPartyRecipe.totalNutrients ? req.body.thirdPartyRecipe.totalNutrients : null,
+			totalNutrients: nutrients,
 			totalDaily: req.body.thirdPartyRecipe.totalDaily ? req.body.thirdPartyRecipe.totalDaily : null
 		},
 		isCustom: false,

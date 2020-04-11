@@ -86,10 +86,7 @@ export default function SignIn() {
 			} else {
 				if ( result.data.error === 555 ) {
 					alert("I couldn't find one of those ingredients. Please try again.");
-				} else {
-					alert("I am unable to save your recipe. I don't know what happened.");
 				}
-				
 			}
 		})
 		// Clear form inputs
