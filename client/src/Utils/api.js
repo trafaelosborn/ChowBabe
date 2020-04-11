@@ -38,13 +38,17 @@ export default {
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
 		axios.post("/api/recipes/create", recipeData).then(result => {
+			console.log('client api create recipe')
 			console.log(result)
 		});
 	},
 
 	// Save a recipe found via the API
 	saveRecipe: function (recipeData) {
-		axios.post("/api/recipes/save", recipeData);
+		axios.post("/api/recipes/save", recipeData).then( result => {
+			console.log('client api save recipe')
+			console.log(result)
+		});
 	},
 
 	// Delete a recipe from the ProfileCard

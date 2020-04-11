@@ -4,17 +4,21 @@ const Schema = mongoose.Schema;
 const RecipeSchema = new Schema({
 	recipeName: {
 		type: String,
-		required: false
+		required: true
 	},
 	ingredientItems: {
 		type: [String],
+		required: true
 	},
 	directionItems: {
 		type: [String],
 	},
+	image: {
+		type: String
+	},
 	isCustom: {
 		type: Boolean,
-		default : false
+		default: false
 	},
 	totalNutrients: {
 		type: Schema.Types.Mixed
