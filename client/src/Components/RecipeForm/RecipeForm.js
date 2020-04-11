@@ -55,19 +55,21 @@ export default function SignIn() {
     const formSubmitted = (event) => {
         event.preventDefault();
         console.log(ingredientInput.current.value)
-        setIngredientItems(prevState => [...prevState, ingredientInput.current.value]);
+		setIngredientItems(prevState => [...prevState, ingredientInput.current.value]);		
+		document.getElementById('ingredient').value = "";
         console.log(ingredientItems);
     }
 
     const directionSubmitted = (event) => {
         event.preventDefault();
-        setDirectionItems(prevState => [...prevState, directionInput.current.value]);
+		setDirectionItems(prevState => [...prevState, directionInput.current.value]);
+		document.getElementById('direction').value = "";
         console.log(directionItems);
     }
 
     const nameChange = (event) => {
         event.preventDefault();
-        setRecipeName(recipeInput.current.value);
+		setRecipeName(recipeInput.current.value);
         console.log(recipeName)
     }
 
@@ -76,13 +78,30 @@ export default function SignIn() {
         let recipeData = {
             recipeName,
             ingredientItems,
-            directionItems,
-            isCustom : true
+            directionItems
         }
-        API.createRecipe(recipeData);
-        alert("Your recipe has been created!")
+        API.createRecipe(recipeData).then(result => {
+			if ( !result.data.error ) {
+				alert("Your recipe has been created!")
+			} else {
+				if ( result.data.error === 555 ) {
+					alert("I couldn't find one of those ingredients. Please try again.");
+				} else {
+					alert("I am unable to save your recipe. I don't know what happened.");
+				}
+				
+			}
+		})
+		// Clear form inputs
+		clearForm();
     }
 
+	const clearForm = () => {
+		setRecipeName("");
+		setIngredientItems([]);
+		setDirectionItems([]);
+		document.getElementById("create-recipe-form").reset();
+	}
 
   
     return (
@@ -93,12 +112,12 @@ export default function SignIn() {
                 <Typography  component="h1" variant="h3">
                 Create a Recipe
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} id="create-recipe-form" noValidate>
                 <TextField onChange={(event) => { nameChange(event); }}
                         variant="outlined"
                         margin="normal"
                         fullWidth
-                        id="ingredient"
+                        id="recipeName"
                         label="Recipe Name"
                         name="inputTest"
                         inputRef={recipeInput}
@@ -117,8 +136,8 @@ export default function SignIn() {
                     />
                     {/* <input name={'inputTest'} placeholder="Type Input Item" ref={testInput} /> */}
                     <AddIcon color="primary" onClick={(event) => { formSubmitted(event); }} />
-                </form>
-                <form className={classes.form}>
+               {/*  </form>
+                <form className={classes.form}> */}
                     <TextField
                         variant="outlined"
                         margin="normal"

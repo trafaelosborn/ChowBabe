@@ -37,18 +37,12 @@ export default {
 
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
-		axios.post("/api/recipes/create", recipeData).then(result => {
-			console.log('client api create recipe')
-			console.log(result)
-		});
+		return axios.post("/api/recipes/create", recipeData)
 	},
 
 	// Save a recipe found via the API
 	saveRecipe: function (recipeData) {
-		axios.post("/api/recipes/save", recipeData).then( result => {
-			console.log('client api save recipe')
-			console.log(result)
-		});
+		axios.post("/api/recipes/save", recipeData)
 	},
 
 	// Delete a recipe from the ProfileCard
@@ -61,13 +55,13 @@ export default {
 	register: function (userData) {
 		axios
 			.post("/api/users", userData, { headers: { "Content-Type": "application/json" } })
-			.then((res) => {
+			.then((result) => {
 				// set local storage using id as key
-				localStorage.setItem("recipetoken", res.data.token);
+				localStorage.setItem("recipetoken", result.data.token);
 				// redirect to user profile
 				axios
-					.get("/api/users/profile/" + res.data.user.id, {
-						headers: { "x-auth-token": res.data.token },
+					.get("/api/users/profile/" + result.data.user.id, {
+						headers: { "x-auth-token": result.data.token },
 					})
 					.then((user) => {
 						window.location = "/profile/" + user.data;
@@ -79,9 +73,9 @@ export default {
 	login: function (userData) {
 		return axios
 			.post("/api/auth", userData, { headers: { "Content-Type": "application/json" } })
-			.then((res) => {
+			.then((result) => {
 				// Save token so we can access it later
-				localStorage.setItem("recipetoken", res.data.token);
+				localStorage.setItem("recipetoken", result.data.token);
 				// redirect to user's profile
 				window.location = "/profile/";
 			});

@@ -84,7 +84,7 @@ router.post("/create", (req, res) => {
 				})	
 		})
 		.catch((err) => {
-			console.log(err);
+			//console.log(err);
 			if (err.response.status === 555) {
 				console.log("555 error: Recipe with insufficient quality to process correctly.");
 				res.json({ error: 555 });
