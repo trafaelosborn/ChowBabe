@@ -1,10 +1,7 @@
 import React, {Component} from 'react'
-
 import { Container } from '@material-ui/core';
 import Card from '../Card/Card'
 import Grid from '@material-ui/core/Grid';
-
-
 
 const gridStyle = {
     color: 'blue',
@@ -12,22 +9,14 @@ const gridStyle = {
   };
 
 export default function SearchGrid(props) {
-    // console.log(props.content);
     return (
         <div classname="Grid">
-
-            
-
             <Container style={gridStyle}>
             <Grid container spacing={4} >
                 { props.content.map(function(recipe, index){
-
-                   
-
-                
-                    return(
+                       return(
                         <Grid items >
-                        <Card  recipe={recipe} content={props.content}/>
+                        <Card recipe={recipe} content={props.content}/>
                         </Grid>
                     );
                 })}

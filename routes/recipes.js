@@ -136,6 +136,8 @@ router.post("/create", (req, res) => {
 // @access  Private
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
+	console.log('server api recipes save');
+	console.log(req.body)
 	// Mongoose does not play well with the raw req data so we have to
 	// create a new object for it.
 	const newObj = {
@@ -169,5 +171,16 @@ router.post("/save", (req, res) => {
 		})
 		.catch((err) => console.log(err));
 });
+
+// @route   POST /api/recipes/delete/:id
+// @desc    Delete recipes from user profile
+// @access  Private
+// router.post("/save", auth, (req, res) => {
+	router.post("/delete/:id", (req, res) => {
+		Recipe.deleteOne({_id: req.params.id}).then(result => {
+			res.json(result);
+		}).catch(err => { console.log(err) })
+	});
+
 
 module.exports = router;

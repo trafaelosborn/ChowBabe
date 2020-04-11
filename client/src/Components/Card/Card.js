@@ -27,15 +27,11 @@ const cardStyle = {
 export default function ImgMediaCard(props) {
 	const classes = useStyles();
 	const recipe = props.recipe.recipe;
-	console.log(recipe.label);
 
 	const addToFavorites = () => {
 		console.log("card add to favorites");
 		let recipeData = { thirdPartyRecipe: recipe };
 		API.saveRecipe(recipeData);
-		/* Axios.post("api/recipes/save", recipeData).then((data) => {
-			console.log(data);
-		}); */
 	};
 
 	return (

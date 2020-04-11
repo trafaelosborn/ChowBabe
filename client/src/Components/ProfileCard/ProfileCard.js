@@ -11,7 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import IconButton from '@material-ui/core/IconButton';
-import Axios from 'axios';
+import API from '../../Utils/api';
 
 const useStyles = makeStyles({
     root: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
   };
 
 export default function ProfileCard(props) {
-    const classes = useStyles();
+	const classes = useStyles();
   
     return (
       <Card style={cardStyle} className={classes.root}>
@@ -50,7 +50,8 @@ export default function ProfileCard(props) {
         </CardActionArea>
         <CardActions>
         
-        <DeleteIcon />
+       {/*  <DeleteIcon onClick={() => {props.handleDelete(props.id)}} /> */}
+        <DeleteIcon onClick={() => {props.handleDelete(props.id)}} />
         <Button size="small" color="primary" href={'/recipepage/'+props.id}>
 					See Recipe
 				</Button>

@@ -127,7 +127,7 @@ const theme = useTheme();
           <Container maxWidth="sm">
 			<div ><img src={recipe.image} style={imageStyle}></img></div>
           <div style={headerStyle}>
-            <h1>{recipe.recipeName ? recipe.recipeName : "Unnamed Recipe"}</h1>
+            <h1>{recipe.recipeName}</h1>
           </div>
 			<div>
 				<h2>Ingredients</h2>           

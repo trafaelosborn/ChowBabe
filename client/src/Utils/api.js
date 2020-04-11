@@ -15,7 +15,7 @@ export default {
 	},
 
 	// Get recipe category when user clicks profile sidebar
-	getRecipes: function (category, id) {
+	getRecipes: function (category) {
 		// category determines if we're searching for custom recipes, saved recipes, or both
 		let isCustom = true;
 		if (category === "savedrecipes") {
@@ -47,6 +47,11 @@ export default {
 		axios.post("/api/recipes/save", recipeData);
 	},
 
+	// Delete a recipe from the ProfileCard
+	deleteRecipe: function (id) {
+		axios.post("/api/recipes/delete/" + id);
+	},
+
 	//////////////////
 	// User functions
 	register: function (userData) {
@@ -71,18 +76,10 @@ export default {
 		return axios
 			.post("/api/auth", userData, { headers: { "Content-Type": "application/json" } })
 			.then((res) => {
-				// When user logs in, generate a new token and get the user id from the database
-				const id = res.data.user.id;
-				const token = res.data.token;
 				// Save token so we can access it later
-				localStorage.setItem("recipetoken", token);
+				localStorage.setItem("recipetoken", res.data.token);
 				// redirect to user's profile
-				axios
-					.get("/api/users/profile/" + id, { headers: { "x-auth-token": token } })
-					.then((user) => {
-						console.log();
-						window.location = "/profile/" + user.data;
-					});
+				window.location = "/profile/";
 			});
 	},
 

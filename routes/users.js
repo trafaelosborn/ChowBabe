@@ -61,13 +61,11 @@ router.post("/", (req, res) => {
 	});
 });
 
-// @route   GET api/users/profile/:id
+// @route   GET api/users/profile/
 // @desc    Get profile page
 // @access  Private
-router.get("/profile/:id", auth, (req, res) => {
+router.get("/profile/", auth, (req, res) => {
 	// get user id from auth 
-	console.log('api users profile id');
-	console.log(req.user.id)
 	// if auth passes, send back the user id...
 	res.send(req.params.id);
 });
@@ -77,8 +75,6 @@ router.get("/profile/:id", auth, (req, res) => {
 // @access  Private
 router.get("/id", auth, (req, res) => {
 	// get user id from auth 
-	console.log('api users profile id');
-	console.log(req.user.id)
 	// if auth passes, send back the user id...
 	res.send(req.user.id);
 });

@@ -1,5 +1,4 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -9,8 +8,6 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
-import axios from "axios"
-import Link from '@material-ui/core/Link';
 import API from '../../Utils/api'
 
 const useStyles = makeStyles(theme => ({
@@ -72,7 +69,23 @@ const useStyles = makeStyles(theme => ({
 
 export default function SearchAppBar({search, handleSearch, handleInput}) {
   	const classes = useStyles();
-  	const { id } = useParams();
+
+	  const [ user, setUser ] = useState({firstName:"", lastName:"", id:"", email:""});
+
+	  const getLoggedOnUserId = () => {
+		  API.getUserId().then(result => {
+			  setUser({
+				  firstName: result.data.firstName,
+				  lastName: result.data.lastName,
+				  id: result.data._id,
+				  email: result.data.email
+			  })
+		  })
+	  }
+  
+	  useEffect(() => {
+		  getLoggedOnUserId();
+	  }, [])
 
 	return (
     	<div className={classes.root}>
@@ -87,7 +100,7 @@ export default function SearchAppBar({search, handleSearch, handleInput}) {
 						<MenuIcon />
 					</IconButton>
 					<Typography className={classes.title} variant="h6" noWrap>
-						Recipes
+						{user.firstName} {user.lastName}
 					</Typography>
 					<div>
 						<Typography className={classes.root}>

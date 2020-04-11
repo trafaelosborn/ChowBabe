@@ -79,7 +79,7 @@ export default function Signin() {
 
 	// Check for token to see if user is logged in, then somehow get the id and redirect to profile...
 	const getLoggedOnUser = () => {
-		console.log('Signin getLoggedOnUser')
+		console.log('Signin getLoggedOnUser -> redirect to profile if valid token exists...')
 		
 	}
 

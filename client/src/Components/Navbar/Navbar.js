@@ -70,8 +70,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
-
 export default function SearchAppBar({search, handleSearch, handleInput}) {
 
 	const [ user, setUser ] = useState({firstName:"", lastName:"", id:"", email:""});
@@ -93,8 +91,6 @@ export default function SearchAppBar({search, handleSearch, handleInput}) {
 
   	const classes = useStyles();
 	  const curr_user = {user};
-	  console.log('navbar Curr_user')
-	console.log(curr_user.user.id)
 	return (
     	<div className={classes.root}>
       		<AppBar position="fixed">
@@ -108,7 +104,7 @@ export default function SearchAppBar({search, handleSearch, handleInput}) {
 						<MenuIcon />
 					</IconButton>
 					<Typography className={classes.title} variant="h6" noWrap>
-						Recipes
+						{user.firstName} {user.lastName}
 					</Typography>
 					<div>
 						<Typography className={classes.root}>

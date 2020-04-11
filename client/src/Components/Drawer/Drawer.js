@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -24,7 +24,6 @@ import BookRoundedIcon from "@material-ui/icons/BookRounded";
 import FavoriteRoundedIcon from "@material-ui/icons/FavoriteRounded";
 import ProfileGrid from "../ProfileGrid/ProfileGrid";
 import SearchGrid from "../SearchGrid/SearchGrid";
-import { useParams } from "react-router-dom";
 import API from "../../Utils/api";
 
 const drawerWidth = 240;
@@ -108,21 +107,41 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ResponsiveDrawer(props) {
-	const { id } = useParams();
 	const { container } = props;
 	const classes = useStyles();
 	const theme = useTheme();
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	const [recipes, setRecipes] = React.useState([]);
+	const [category, setCategory] = React.useState("");
+	const [ user, setUser ] = React.useState({firstName:"", lastName:"", id:"", email:""});
+
+	const getLoggedOnUserId = () => {
+		API.getUserId().then(result => {
+			setUser({
+				firstName: result.data.firstName,
+				lastName: result.data.lastName,
+				id: result.data._id,
+				email: result.data.email
+			})
+		})
+	}
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
 
-	const handleClick = (e, category) => {
-		// getRecipes: gets recipes of the given sidebar category
-		// and updates the recipes state which updates the content of ProfileGrid
-		API.getRecipes(category, id).then((results) => {
+	const handleDelete = (id) => {
+		// Delete the selected recipe and reload the current category 
+		API.deleteRecipe(id);
+		// For some reason getting the category state here results in an object with 
+		// an extra "category" key. I changed loadRecipes to expect a string so we can sanitize
+		// input wherever it's called. 
+		const cat = {category};
+		loadRecipes(cat.category.category);
+	}
+
+	const loadRecipes = (category) => {
+		API.getRecipes(category).then((results) => {
 			const newArr = results.data.map((item, index) => {
 				if (item.isCustom) {
 					return {
@@ -147,7 +166,18 @@ function ResponsiveDrawer(props) {
 			});
 			setRecipes(newArr);
 		});
+	}
+
+	const handleClick = (e, category) => {
+		// Set category and get recipes
+		setCategory({category});
+		const cat = {category};
+		loadRecipes(cat.category);
 	};
+
+	useEffect(() => {
+		getLoggedOnUserId();
+	}, [])
 
 	const drawer = (
 		<div>
@@ -207,7 +237,7 @@ function ResponsiveDrawer(props) {
 						<MenuIcon />
 					</IconButton>
 					<Typography variant="h6" noWrap>
-						{props.user.firstName} {props.user.lastName}
+						{user.firstName} {user.lastName}
 					</Typography>
 
 					<div>
@@ -249,7 +279,8 @@ function ResponsiveDrawer(props) {
 				</Hidden>
 			</nav>
 			<main className={classes.content}>
-				<ProfileGrid recipes={recipes} />
+				{<ProfileGrid recipes={recipes} handleDelete={handleDelete} />}
+				{/* <ProfileGrid category={category} /> */}
 			</main>
 		</div>
 	);
