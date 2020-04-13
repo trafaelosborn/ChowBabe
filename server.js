@@ -5,23 +5,21 @@ const config = require("config");
 const app = express();
 const port = process.env.PORT || 3001;
 
-// Body Parser middleware
+// Body parser middleware
 app.use(express.json());
 
 // DB config
-//const db = config.get("mongoURI");
+const db = config.get("mongoURI");
 
 // connect to DB
-/* mongoose
-	.connect(db, {
+mongoose
+	.connect(process.env.MONGODB_URI || db, {
 		useNewUrlParser: true,
 		useCreateIndex: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
 	})
 	.then(() => console.log("mongodb connected"))
-	.catch(err => console.log(err)); */
-
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/recipedb");
+	.catch((err) => console.log(err));
 
 // use routes
 app.use("/api/users", require("./routes/users"));
@@ -34,7 +32,6 @@ if (process.env.NODE_ENV === "production") {
 	app.use(express.static("client/build"));
 
 	// Express serve up index.html file if it doesn't recognize route
-	const path = require("path");
 	app.get("*", (req, res) => {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
