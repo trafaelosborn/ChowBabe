@@ -11,7 +11,8 @@ const gridStyle = {
   };
 
   const backgroundStyle = {
-    width: '100vw',
+    width: '100%',
+    
 }
 
 
