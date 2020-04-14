@@ -9,12 +9,12 @@ const fs = require("fs");
 // AWS
 const AWS = require("aws-sdk");
 // Heroku:
-//const BUCKET = process.env.BUCKET;
-//const ID = process.env.ID;
-//const SECRET = process.env.SECRET;
-const BUCKET = config.get("BUCKET");
+const BUCKET = process.env.BUCKET;
+const ID = process.env.ID;
+const SECRET = process.env.SECRET;
+/* const BUCKET = config.get("BUCKET");
 const ID = config.get("ID");
-const SECRET = config.get("SECRET");
+const SECRET = config.get("SECRET"); */
 const s3 = new AWS.S3({
 	accessKeyId: ID,
 	secretAccessKey: SECRET,
@@ -59,22 +59,15 @@ router.post("/save", (req, res) => {
 /////////////////////
 // OCR
 const BASE_URL = "http://www.ocrwebservice.com/restservices/processDocument";
-const ACCT_URL = "http://www.ocrwebservice.com/restservices/getAccountInformation";
 //const ARGS = "?language=english&gettext=true&tobw=true&pagerange=1&newline=1";
 const ARGS = "?language=english&gettext=true";
-// Heroku:
-//const LOGIN = process.env.LOGIN;
-//const LIC = process.env.LIC;
-const LOGIN = "DANDISMUKE";
-const LIC = "2326C799-A994-4C45-9695-A7EABF96A2A6";
 
 // @route   POST /api/images/ocr
 // @desc    Post images to api for OCR
 // @access  Private
 // router.post("/ocr", auth, (req, res) => {
 router.post("/ocr", (req, res) => {
-	console.log("server api images ocr");
-	console.log("url: " + BASE_URL + ARGS);
+	// feed it a high quality pdf for testing
 	const fileContent = fs.readFileSync("h15093-dell_emc_unity-best_practices_guide.pdf");
 	// ocr
 	axios({
