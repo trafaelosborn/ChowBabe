@@ -68,7 +68,7 @@ const ARGS = "?language=english&gettext=true";
 // router.post("/ocr", auth, (req, res) => {
 router.post("/ocr", (req, res) => {
 	// feed it a high quality pdf for testing
-	const fileContent = fs.readFileSync("h15093-dell_emc_unity-best_practices_guide.pdf");
+	//const fileContent = fs.readFileSync("h15093-dell_emc_unity-best_practices_guide.pdf");
 	// ocr
 	axios({
 		method: "post",
