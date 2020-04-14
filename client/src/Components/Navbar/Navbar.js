@@ -9,8 +9,6 @@ import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import Button from '@material-ui/core/Button';
-import axios from "axios"
-import Link from '@material-ui/core/Link';
 import API from '../../Utils/api'
 
 const useStyles = makeStyles(theme => ({
