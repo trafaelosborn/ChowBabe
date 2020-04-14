@@ -1,7 +1,0 @@
-{
-    "mongoURI": "mongodb://localhost/recipedb",
-	"jwtSecret": "sl_myJwtSecret",
-	"BUCKET": "chow-babe/publicprefix",
-	"ID": "AKIAJZSHKZWYJ3L5E6OA",
-	"SECRET": "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" 
-}
