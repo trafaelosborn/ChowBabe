@@ -7,20 +7,22 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 // Body Parser middleware
-app.use(express.json({limit: '5mb'}));
+app.use(express.json({ limit: "5mb" }));
 
 // DB config
-const db = config.get("mongoURI");
+//const db = config.get("mongoURI");
+const db =
+	"mongodb://heroku_0qbv22pw:qot9i18ia71featoo1lng43g5q@ds159328.mlab.com:59328/heroku_0qbv22pw";
 
 // connect to DB
 mongoose
 	.connect(process.env.MONGODB_URI || db, {
 		useNewUrlParser: true,
 		useCreateIndex: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
 	})
 	.then(() => console.log("mongodb connected"))
-	.catch(err => console.log(err));
+	.catch((err) => console.log(err));
 
 // use routes
 app.use("/api/users", require("./routes/users"));
