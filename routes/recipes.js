@@ -4,15 +4,14 @@ const router = express.Router();
 const auth = require("../config/middleware/auth");
 const Recipe = require("../models/Recipe");
 
-
 // Helper function for replacing bad json key in API response
 const sugarReplacer = (totalNutrients) => {
-	if ( totalNutrients['SUGAR.added']) { 
-		totalNutrients['SUGARADDED'] = totalNutrients['SUGAR.added']
-		delete totalNutrients['SUGAR.added'];
+	if (totalNutrients["SUGAR.added"]) {
+		totalNutrients["SUGARADDED"] = totalNutrients["SUGAR.added"];
+		delete totalNutrients["SUGAR.added"];
 	}
 	return totalNutrients;
-}
+};
 
 // @route   GET /api/recipes/find
 // @desc    Get all saved recipes
@@ -36,17 +35,17 @@ router.get("/find/:isCustom", (req, res) => {
 // @desc    Get recipe from DB
 // @access  Private
 //router.get("/findById/:id", auth, (req, res) => {
-	router.get("/findById/:id", (req, res) => {
-		const id = req.params.id;
-		// Gets recipe data for the given recipeId
-		Recipe.findById(id)
-			.then(data => {
-				res.json(data);
-			})
-			.catch( err => {
-				console.log(err);
-			});
-	});
+router.get("/findById/:id", (req, res) => {
+	const id = req.params.id;
+	// Gets recipe data for the given recipeId
+	Recipe.findById(id)
+		.then((data) => {
+			res.json(data);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
 
 // @route   GET /api/recipes/search/:searchterm
 // @desc    Search for recipes
@@ -56,7 +55,11 @@ router.get("/search/:searchterm", (req, res) => {
 	axios
 		.get(
 			"https://api.edamam.com/search?q=" +
-				searchterm + "&app_id=" + searchAppId + "&app_key=" + apiKey
+				searchterm +
+				"&app_id=" +
+				searchAppId +
+				"&app_key=" +
+				apiKey
 		)
 		.then((response) => {
 			res.json(response.data.hits);
@@ -69,28 +72,36 @@ router.get("/search/:searchterm", (req, res) => {
 // router.post("/create", auth, (req, res) => {
 router.post("/create", (req, res) => {
 	// Run recipe through nutrition API to handle any errors before sending it to the DB
-	axios.post("https://api.edamam.com/api/nutrition-details?app_id=" + calcAppId + "&app_key=" + calcApiKey,
-		{
-			title: req.body.recipeName,
-			ingr: req.body.ingredientItems,
-			prep: req.body.directionItems		
-		},{ headers: { "Content-Type": "application/json" } })
+	axios
+		.post(
+			"https://api.edamam.com/api/nutrition-details?app_id=" +
+				calcAppId +
+				"&app_key=" +
+				calcApiKey,
+			{
+				title: req.body.recipeName,
+				ingr: req.body.ingredientItems,
+				prep: req.body.directionItems,
+			},
+			{ headers: { "Content-Type": "application/json" } }
+		)
 		.then((result) => {
 			// Sanitize API response before sending to mongo
-			const nutrients = sugarReplacer(result.data.totalNutrients)
+			const nutrients = sugarReplacer(result.data.totalNutrients);
 			// If the request was successful, add the new recipe + nutrition data to DB
 			Recipe.create({
-					recipeName: req.body.recipeName,
-					ingredientItems: req.body.ingredientItems,
-					directionItems: req.body.directionItems,
-					isCustom: true,
-					image: "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80",
-					//totalNutrients: result.data.totalNutrients, 
-					totalNutrients: nutrients, 
-					totalDaily: result.data.totalDaily
-				}).then( queryResult => {
-					res.json(queryResult);
-				})	
+				recipeName: req.body.recipeName,
+				ingredientItems: req.body.ingredientItems,
+				directionItems: req.body.directionItems,
+				isCustom: true,
+				image:
+					"https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2000&q=80",
+				//totalNutrients: result.data.totalNutrients,
+				totalNutrients: nutrients,
+				totalDaily: result.data.totalDaily,
+			}).then((queryResult) => {
+				res.json(queryResult);
+			});
 		})
 		.catch((err) => {
 			//console.log(err);
@@ -99,7 +110,7 @@ router.post("/create", (req, res) => {
 				res.json({ error: 555 });
 			}
 		});
-	})
+});
 
 // @route   POST /api/recipes/save
 // @desc    Save recipes to user profile
@@ -107,7 +118,7 @@ router.post("/create", (req, res) => {
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
 	// Sanitize API response before sending to mongo
-	const nutrients = sugarReplacer(req.body.thirdPartyRecipe.totalNutrients)
+	const nutrients = sugarReplacer(req.body.thirdPartyRecipe.totalNutrients);
 
 	// Mongoose does not play well with the raw req data so we have to
 	// create a new object for it.
@@ -130,10 +141,14 @@ router.post("/save", (req, res) => {
 			ingredientLines: [req.body.thirdPartyRecipe.ingredientLines]
 				? [req.body.thirdPartyRecipe.ingredientLines]
 				: null,
-			calories: req.body.thirdPartyRecipe.calories ? req.body.thirdPartyRecipe.calories : null,
+			calories: req.body.thirdPartyRecipe.calories
+				? req.body.thirdPartyRecipe.calories
+				: null,
 			//totalNutrients: req.body.thirdPartyRecipe.totalNutrients ? req.body.thirdPartyRecipe.totalNutrients : null,
 			totalNutrients: nutrients,
-			totalDaily: req.body.thirdPartyRecipe.totalDaily ? req.body.thirdPartyRecipe.totalDaily : null
+			totalDaily: req.body.thirdPartyRecipe.totalDaily
+				? req.body.thirdPartyRecipe.totalDaily
+				: null,
 		},
 		isCustom: false,
 	};
@@ -148,11 +163,14 @@ router.post("/save", (req, res) => {
 // @desc    Delete recipes from user profile
 // @access  Private
 // router.post("/save", auth, (req, res) => {
-	router.post("/delete/:id", (req, res) => {
-		Recipe.deleteOne({_id: req.params.id}).then(result => {
+router.post("/delete/:id", (req, res) => {
+	Recipe.deleteOne({ _id: req.params.id })
+		.then((result) => {
 			res.json(result);
-		}).catch(err => { console.log(err) })
-	});
-
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+});
 
 module.exports = router;

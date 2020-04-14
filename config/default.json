@@ -1,0 +1,4 @@
+{
+	"mongoURI": "mongodb://localhost/recipedb",
+	"jwtSecret": "sl_my_supe%ecret"
+}
