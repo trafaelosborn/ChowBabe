@@ -12,9 +12,7 @@ const AWS = require("aws-sdk");
 const BUCKET = process.env.BUCKET;
 const ID = process.env.ID;
 const SECRET = process.env.SECRET;
-/* const BUCKET = config.get("BUCKET");
-const ID = config.get("ID");
-const SECRET = config.get("SECRET"); */
+
 const s3 = new AWS.S3({
 	accessKeyId: ID,
 	secretAccessKey: SECRET,
@@ -61,6 +59,7 @@ router.post("/save", (req, res) => {
 const BASE_URL = "http://www.ocrwebservice.com/restservices/processDocument";
 //const ARGS = "?language=english&gettext=true&tobw=true&pagerange=1&newline=1";
 const ARGS = "?language=english&gettext=true";
+const OCR_AUTH = process.env.OCR_AUTH;
 
 // @route   POST /api/images/ocr
 // @desc    Post images to api for OCR
@@ -75,7 +74,7 @@ router.post("/ocr", (req, res) => {
 		url: BASE_URL + ARGS,
 		data: fileContent,
 		headers: {
-			Authorization: "Basic REFORElTTVVLRToyMzI2Qzc5OS1BOTk0LTRDNDUtOTY5NS1BN0VBQkY5NkEyQTY=",
+			Authorization: OCR_AUTH,
 		},
 	})
 		.then((result) => {
