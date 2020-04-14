@@ -10,16 +10,13 @@ const gridStyle = {
     marginTop: '5%', 
   };
 
-  const backgroundStyle = {
-    width: '100%',
-    
-}
+
 
 
 export default function SearchGrid(props) {
     return (
         <Paper>
-            <img src={Background} style = {backgroundStyle}></img>
+            
             <Container style={gridStyle}>
             
             <Grid container spacing={4} >
