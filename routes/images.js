@@ -59,7 +59,6 @@ router.post("/save", (req, res) => {
 /////////////////////
 // OCR
 const BASE_URL = "http://www.ocrwebservice.com/restservices/processDocument";
-const ACCT_URL = "http://www.ocrwebservice.com/restservices/getAccountInformation";
 //const ARGS = "?language=english&gettext=true&tobw=true&pagerange=1&newline=1";
 const ARGS = "?language=english&gettext=true";
 
@@ -68,8 +67,6 @@ const ARGS = "?language=english&gettext=true";
 // @access  Private
 // router.post("/ocr", auth, (req, res) => {
 router.post("/ocr", (req, res) => {
-	console.log("server api images ocr");
-	console.log("url: " + BASE_URL + ARGS);
 	// feed it a high quality pdf for testing
 	const fileContent = fs.readFileSync("h15093-dell_emc_unity-best_practices_guide.pdf");
 	// ocr
