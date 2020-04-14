@@ -108,6 +108,7 @@ export default function SearchAppBar({search, handleSearch, handleInput}) {
 					</div>
 					<div>
 						<Button href="/createrecipe/"> Create a Recipe </Button>
+						<Button href="/imagecapture">OCR</Button>
 						<Button href="/profile"> My Profile </Button>
 						<Button href="/search"> Find Recipes! </Button>
 					</div>
