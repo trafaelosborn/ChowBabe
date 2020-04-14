@@ -53,18 +53,20 @@ export default {
 
 	// save image from image capture
 	saveImage: function (imageData) {
-		console.log('client api save image')
-		console.log(imageData)
-		//let base64String = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgA'; // Not a real image
-		// Remove header
+		// Remove header from data and keep the string
 		let base64Image = imageData.split(';base64,').pop();
-		console.log(base64Image);
-		
-		/* fs.writeFile('image.png', base64Image, {encoding: 'base64'}, function(err) {
-			console.log('File created');
-		}); */
-		//axios.post("/api/images/save", imageData)
+		// Send to server as string and convert it to an image
 		axios.post("/api/images/save", {imageData: base64Image})
+	},
+
+	ocr: function() {
+		console.log('client api ocr')
+		// test ocr with existing photo
+		axios.post("/api/images/ocr").then(res => {
+			console.log('client api ocr');
+			console.log(res.data.message);
+		})
+
 	},
 
 	//////////////////

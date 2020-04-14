@@ -9,10 +9,12 @@ class WebcamCapture extends React.Component {
   
 	capture = () => {
 	  const imageSrc = this.webcam.getScreenshot();
-	  console.log('click');
-	  console.log(imageSrc);
 	  API.saveImage(imageSrc);
 	};
+
+	ocr = () => {
+		API.ocr();
+	}
   
 	render() {
 	  const videoConstraints = {
@@ -32,6 +34,7 @@ class WebcamCapture extends React.Component {
 			videoConstraints={videoConstraints}
 		  />
 		  <button onClick={this.capture}>Capture photo</button>
+		  <button onClick={this.ocr}>OCR Test</button>
 		  <img src="https://chow-babe.s3-us-west-2.amazonaws.com/publicprefix/testUpload.png" alt="Test"></img>
 		</div>
 	  );
