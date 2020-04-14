@@ -1,4 +1,5 @@
 import axios from "axios";
+import fs from 'fs';
 
 export default {
 	////////////////////
@@ -48,6 +49,24 @@ export default {
 	// Delete a recipe from the ProfileCard
 	deleteRecipe: function (id) {
 		axios.post("/api/recipes/delete/" + id);
+	},
+
+	// save image from image capture
+	saveImage: function (imageData) {
+		// Remove header from data and keep the string
+		let base64Image = imageData.split(';base64,').pop();
+		// Send to server as string and convert it to an image
+		axios.post("/api/images/save", {imageData: base64Image})
+	},
+
+	ocr: function() {
+		console.log('client api ocr')
+		// test ocr with existing photo
+		axios.post("/api/images/ocr").then(res => {
+			console.log('client api ocr');
+			console.log(res.data.message);
+		})
+
 	},
 
 	//////////////////

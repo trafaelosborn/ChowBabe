@@ -3,10 +3,11 @@ const mongoose = require("mongoose");
 const path = require("path");
 const config = require("config");
 const app = express();
+
 const port = process.env.PORT || 3001;
 
-// Body parser middleware
-app.use(express.json());
+// Body Parser middleware
+app.use(express.json({ limit: "5mb" }));
 
 // DB config
 const db = config.get("mongoURI");
@@ -25,6 +26,7 @@ mongoose
 app.use("/api/users", require("./routes/users"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/recipes", require("./routes/recipes"));
+app.use("/api/images", require("./routes/images"));
 
 // Server static assets if we're in production
 if (process.env.NODE_ENV === "production") {

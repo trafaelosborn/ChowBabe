@@ -7,7 +7,8 @@ import Search from "./Components/Search/Search";
 import Profile from "./Components/Profile/Profile";
 import RecipePage from "./Components/RecipePage/RecipePage";
 import CreateRecipe from "./Components/CreateRecipe/CreateRecipe";
-import Test from "./Components/Test/index";
+import WebcamCapture from "./Components/WebcamCapture/WebcamCapture";
+
 function App() {
 	return (
 		<Router>
@@ -18,8 +19,9 @@ function App() {
 					<Route exact path="/search" component={Search} />
 					<Route exact path="/profile" component={Profile} />
 					<Route exact path="/RecipePage/:id" component={RecipePage} />
-					<Route exact path="/createrecipe" component={CreateRecipe} /> */}
-					<Route exact path="/test" component={Test} />
+					<Route exact path="/createrecipe" component={CreateRecipe} />
+					<Route exact path="/imagecapture" component={WebcamCapture} />
+
 				</Switch>
 			</div>
 		</Router>
