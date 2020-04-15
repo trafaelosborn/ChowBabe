@@ -1,24 +1,20 @@
 import React from "react";
 import Webcam from "react-webcam";
-import API from '../../Utils/api';
+import API from "../../Utils/api";
 
 class WebcamCapture extends React.Component {
-
 	constructor() {
 		super();
 		// set name of capture file for upload
 		this.state = {
 			id: "",
-			captureName: ""
+			captureName: "",
+			ocrResults: [],
 		};
 	}
 
 	getUserId = () => {
-		const currDate = new Date();
-		const utc = currDate.getTime();
-		console.log(utc);
 		API.getUserId().then((result) => {
-		
 			this.setState({
 				id: result.data._id,
 				captureName: result.data._id + "_image.png",
@@ -26,37 +22,41 @@ class WebcamCapture extends React.Component {
 		});
 	};
 
-	setRef = webcam => {
-	  this.webcam = webcam;
+	setRef = (webcam) => {
+		this.webcam = webcam;
 	};
-  
+
 	capture = () => {
-	  const imageSrc = this.webcam.getScreenshot();
-		const currDate = new Date();
-		const utc = currDate.getTime();
-		console.log(utc);
-	  API.saveImage(imageSrc, this.state.id);
+		const imageSrc = this.webcam.getScreenshot();
+		this.setState({
+			captureName: this.state.id + "_image.png",
+		});
+		API.saveImage(imageSrc, this.state);
 	};
 
 	// Send image to OCR api
 	ocr = () => {
-		API.ocr();
-	}
+		API.ocr(this.state).then((ocrData) => {
+			console.log("webcamcapture api ocr data");
+			console.log(ocrData.data.OCRText);
+			this.setState({ ocrResults: ocrData.data.OCRText });
+		});
+	};
 
 	componentDidMount() {
 		this.getUserId();
 	}
-  
+
 	render() {
-	  const videoConstraints = {
-		width: 1280,
-		height: 720,
-		facingMode: "user"
-	  };
-  
-	  return (
-		<div className="webcamContainer">
-			<h1>Welcome user {this.state.id}</h1>
+		const videoConstraints = {
+			width: 1280,
+			height: 720,
+			facingMode: "user",
+		};
+
+		return (
+			<div className="webcamContainer">
+				<h1>Welcome user {this.state.id}</h1>
 				<Webcam
 					className="webcam"
 					audio={false}
@@ -81,9 +81,11 @@ class WebcamCapture extends React.Component {
 					></img>
 					<button onClick={this.ocr}>OCR Test</button>
 				</div>
-			</div>
-	  );
-	}
-  }
 
-  export default WebcamCapture;
+				<div className="resultsContainer">{this.state.ocrResults}</div>
+			</div>
+		);
+	}
+}
+
+export default WebcamCapture;

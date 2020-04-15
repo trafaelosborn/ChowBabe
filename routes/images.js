@@ -3,15 +3,16 @@ const express = require("express");
 const router = express.Router();
 const config = require("config");
 const auth = require("../config/middleware/auth");
+const AWS = require("aws-sdk");
 const fs = require("fs");
 
 //////////////////////
 // AWS
-const AWS = require("aws-sdk");
+
 // Heroku:
 const BUCKET = process.env.BUCKET || config.get("BUCKET");
 const ID = process.env.ID || config.get("ID");
-const SECRET = process.env.SECRET | config.get("SECRET");
+const SECRET = process.env.SECRET || config.get("SECRET");
 
 const s3 = new AWS.S3({
 	accessKeyId: ID,
@@ -26,7 +27,6 @@ const uploadFile = (imageFile, filename) => {
 		Key: filename, // File name you want to save as in S3
 		Body: fileContent,
 	};
-
 	// Uploading files to the bucket
 	s3.upload(params, function (err, data) {
 		if (err) {
@@ -41,24 +41,19 @@ const uploadFile = (imageFile, filename) => {
 // @access  Private
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
-	console.log("server api images save");
+	const newFileName = req.body.captureInfo.captureName;
 	// save image to root of the application
-	fs.writeFile("image.png", req.body.imageData, { encoding: "base64" }, function (
-		err,
-		imageFile
-	) {
-		console.log("File created:");
-		console.log(fs.statSync("image.png"));
+	fs.writeFile(newFileName, req.body.imageData, { encoding: "base64" }, function (err, fileData) {
+		// Upload file to bucket
+		uploadFile(newFileName, newFileName);
 	});
-	// Upload file to bucket
-	uploadFile("image.png", "testUpload.png");
 });
 
 /////////////////////
 // OCR
 const BASE_URL = "http://www.ocrwebservice.com/restservices/processDocument";
 const ARGS = "?language=english&gettext=true";
-const OCR_AUTH = process.env.OCR_AUTH;
+const OCR_AUTH = process.env.OCR_AUTH || config.get("OCR_AUTH");
 
 // @route   POST /api/images/ocr
 // @desc    Post images to api for OCR
@@ -66,7 +61,9 @@ const OCR_AUTH = process.env.OCR_AUTH;
 // router.post("/ocr", auth, (req, res) => {
 router.post("/ocr", (req, res) => {
 	// feed it a high quality pdf for testing
-	//const fileContent = fs.readFileSync("h15093-dell_emc_unity-best_practices_guide.pdf");
+	//const fileContent = fs.readFileSync("cake.pdf");
+	// Get capture from imagecapture page
+	const fileContent = fs.readFileSync(req.body.captureName);
 	// ocr
 	axios({
 		method: "post",
@@ -78,7 +75,8 @@ router.post("/ocr", (req, res) => {
 	})
 		.then((result) => {
 			console.log("ocr happened: ");
-			console.log(result.data);
+			console.log(result.data.OCRText);
+			res.json(result.data);
 			//res.json(result.response.status);
 		})
 		.catch((err) => {

@@ -51,21 +51,29 @@ export default {
 	},
 
 	// save image from image capture
-	saveImage: function (imageData, id) {
+	saveImage: function (imageData, captureInfo) {
 		// Remove header from data and keep the string
 		let base64Image = imageData.split(";base64,").pop();
 		// Send to server as string and convert it to an image
-		axios.post("/api/images/save", { imageData: base64Image, id: id }).then((result) => {
-			// send image info back to browser
-			console.log("api saveImage result");
-			console.log(result);
-		});
+		//axios.post("/api/images/save", { imageData: base64Image, id: id }).then((result) => {
+		axios
+			.post("/api/images/save", { imageData: base64Image, captureInfo: captureInfo })
+			.then((result) => {
+				// send image info back to browser
+				console.log("api saveImage result");
+				console.log(result);
+			});
 	},
 
-	ocr: function () {
-		console.log("client api ocr");
+	ocr: function (capture) {
 		// test ocr with existing photo
-		axios.post("/api/images/ocr");
+		return axios.post("/api/images/ocr", {
+			captureName: capture.captureName,
+		}); /* .then((result) => {
+			console.log("api ocr result");
+			console.log(result.data.OCRText);
+			
+		}); */
 	},
 
 	//////////////////
