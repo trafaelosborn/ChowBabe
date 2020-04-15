@@ -9,12 +9,9 @@ const fs = require("fs");
 // AWS
 const AWS = require("aws-sdk");
 // Heroku:
-/* const BUCKET = process.env.BUCKET;
+const BUCKET = process.env.BUCKET;
 const ID = process.env.ID;
-const SECRET = process.env.SECRET; */
-const BUCKET = process.env.BUCKET || "chow-babe/publicprefix";
-const ID = process.env.ID || "AKIAI5SLWFTPYW5Q2NEQ";
-const SECRET = process.env.SECRET || "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";
+const SECRET = process.env.SECRET;
 
 const s3 = new AWS.S3({
 	accessKeyId: ID,
