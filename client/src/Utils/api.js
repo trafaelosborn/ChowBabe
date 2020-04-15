@@ -78,13 +78,7 @@ export default {
 				// set local storage using id as key
 				localStorage.setItem("recipetoken", result.data.token);
 				// redirect to user profile
-				axios
-					.get("/api/users/profile/" + result.data.user.id, {
-						headers: { "x-auth-token": result.data.token },
-					})
-					.then((user) => {
-						window.location = "/profile/" + user.data;
-					});
+				window.location = "/profile/";
 			});
 	},
 

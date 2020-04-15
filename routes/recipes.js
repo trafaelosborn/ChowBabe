@@ -3,10 +3,17 @@ const express = require("express");
 const router = express.Router();
 const auth = require("../config/middleware/auth");
 const Recipe = require("../models/Recipe");
-const searchAppId = process.env.APP_ID;
+
+/* const searchAppId = process.env.APP_ID;
 const apiKey = process.env.API_KEY;
 const calcAppId = process.env.CALCAPP_ID;
-const calcApiKey = process.env.CALCAPI_KEY;
+const calcApiKey = process.env.CALCAPI_KEY; */
+
+const apiKey = "8d8fa59906758f991bd7c52d34c5621f";
+const calcApiKey = '78d4def55cec8e79502139f034b1812b';
+const searchAppId = "867a731f";
+const calcAppId = "66b96b13";
+
 
 // Helper function for replacing bad json key in API response
 const sugarReplacer = (totalNutrients) => {

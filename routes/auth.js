@@ -16,7 +16,6 @@ router.post("/", (req, res) => {
 	if (!email || !password) {
 		return res.status(400).json({ msg: "Please enter all fields" });
 	}
-
 	// Check for existing user with the entered email
 	User.findOne({ email }).then(user => {
 		// look for existing user in the database
@@ -32,6 +31,7 @@ router.post("/", (req, res) => {
 				{ expiresIn: 3600 },
 				(err, token) => {
 					if (err) throw err;
+					console.log('api auth login user')
 					// send token and user object to database.
 					res.json({
 						token,
