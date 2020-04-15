@@ -10,7 +10,10 @@ const port = process.env.PORT || 3001;
 app.use(express.json({ limit: "5mb" }));
 
 // DB config
-const db = config.get("mongoURI");
+//const db = config.get("mongoURI");
+const db =
+	"mongodb://heroku_0qbv22pw:qot9i18ia71featoo1lng43g5q@ds159328.mlab.com:59328/heroku_0qbv22pw";
+
 
 // connect to DB
 mongoose
