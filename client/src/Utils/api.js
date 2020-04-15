@@ -1,5 +1,4 @@
 import axios from "axios";
-import fs from 'fs';
 
 export default {
 	////////////////////
@@ -28,7 +27,7 @@ export default {
 			headers: { "Content-Type": "application/json" },
 		});
 	},
-	
+
 	// Get a single recipe by id
 	getRecipeById: function (id) {
 		return axios.get("/api/recipes/findById/" + id, {
@@ -38,12 +37,12 @@ export default {
 
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
-		return axios.post("/api/recipes/create", recipeData)
+		return axios.post("/api/recipes/create", recipeData);
 	},
 
 	// Save a recipe found via the API
 	saveRecipe: function (recipeData) {
-		axios.post("/api/recipes/save", recipeData)
+		axios.post("/api/recipes/save", recipeData);
 	},
 
 	// Delete a recipe from the ProfileCard
@@ -56,7 +55,7 @@ export default {
 		// Remove header from data and keep the string
 		let base64Image = imageData.split(";base64,").pop();
 		// Send to server as string and convert it to an image
-		axios.post("/api/images/save", { imageData: base64Image, id: id}).then((result) => {
+		axios.post("/api/images/save", { imageData: base64Image, id: id }).then((result) => {
 			// send image info back to browser
 			console.log("api saveImage result");
 			console.log(result);
@@ -66,7 +65,7 @@ export default {
 	ocr: function () {
 		console.log("client api ocr");
 		// test ocr with existing photo
-		axios.post("/api/images/ocr") 
+		axios.post("/api/images/ocr");
 	},
 
 	//////////////////
@@ -96,11 +95,11 @@ export default {
 
 	// Get user info. Use id to look up specific user. Pass token to verify current user's status.
 	getUserInfo: function (id) {
-		const token = localStorage.getItem('recipetoken');
+		const token = localStorage.getItem("recipetoken");
 		return axios.get("/api/users/info/" + id, { headers: { "x-auth-token": token } });
 	},
 
-	// Get logged in user's info 
+	// Get logged in user's info
 	getUserId: function () {
 		const token = localStorage.getItem("recipetoken");
 		return axios.get("/api/users/info/", { headers: { "x-auth-token": token } });

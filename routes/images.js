@@ -8,9 +8,11 @@ const fs = require("fs");
 //////////////////////
 // AWS
 const AWS = require("aws-sdk");
-const BUCKET = process.env.BUCKET;
-const ID = process.env.ID;
-const SECRET = process.env.SECRET; 
+// Heroku:
+const BUCKET = process.env.BUCKET || config.get("BUCKET");
+const ID = process.env.ID || config.get("ID");
+const SECRET = process.env.SECRET | config.get("SECRET");
+
 const s3 = new AWS.S3({
 	accessKeyId: ID,
 	secretAccessKey: SECRET,
@@ -38,16 +40,19 @@ const uploadFile = (imageFile, filename) => {
 // @desc    Save images test route
 // @access  Private
 // router.post("/save", auth, (req, res) => {
-	router.post("/save", (req, res) => {
-		console.log("server api images save");
-		console.log(req.body.id)
-		// save image to root of the application with the given filename
-		const filename = req.body.id + "_image.png";
-		fs.writeFile(filename, req.body.imageData, { encoding: "base64" }, function (err, imageFile) {
-			// Upload file to bucket
-			uploadFile(filename, req.body.id + "_image.png");
-		});
+router.post("/save", (req, res) => {
+	console.log("server api images save");
+	// save image to root of the application
+	fs.writeFile("image.png", req.body.imageData, { encoding: "base64" }, function (
+		err,
+		imageFile
+	) {
+		console.log("File created:");
+		console.log(fs.statSync("image.png"));
 	});
+	// Upload file to bucket
+	uploadFile("image.png", "testUpload.png");
+});
 
 /////////////////////
 // OCR
@@ -55,28 +60,26 @@ const BASE_URL = "http://www.ocrwebservice.com/restservices/processDocument";
 const ARGS = "?language=english&gettext=true";
 const OCR_AUTH = process.env.OCR_AUTH;
 
-
 // @route   POST /api/images/ocr
 // @desc    Post images to api for OCR
 // @access  Private
- //router.post("/ocr", auth, (req, res) => {
+// router.post("/ocr", auth, (req, res) => {
 router.post("/ocr", (req, res) => {
 	// feed it a high quality pdf for testing
-	const fileContent = fs.readFileSync("cake.pdf");
-
+	//const fileContent = fs.readFileSync("h15093-dell_emc_unity-best_practices_guide.pdf");
 	// ocr
 	axios({
 		method: "post",
 		url: BASE_URL + ARGS,
 		data: fileContent,
 		headers: {
-			Authorization: OCR_AUTH
+			Authorization: OCR_AUTH,
 		},
 	})
 		.then((result) => {
 			console.log("ocr happened: ");
-			console.log(result.data.OCRText);
-			res.json(result.data.OCRText);
+			console.log(result.data);
+			//res.json(result.response.status);
 		})
 		.catch((err) => {
 			console.log(err);
