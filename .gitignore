@@ -1,6 +1,7 @@
 node_modules
 build
 
+config/default.json
 /config/default.json
 
 # dependencies
