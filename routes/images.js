@@ -55,9 +55,8 @@ const uploadFile = (imageFile, filename) => {
 // OCR
 const BASE_URL = "http://www.ocrwebservice.com/restservices/processDocument";
 const ARGS = "?language=english&gettext=true";
-//const OCR_AUTH = process.env.OCR_AUTH;
-const OCR_AUTH =
-	process.env.OCR_AUTH || "Basic Q0hPV0JBQkU6QzgxN0NEM0EtNDBERi00RjlFLUJDMDEtOEExMThCREM4N0Qz";
+const OCR_AUTH = process.env.OCR_AUTH;
+
 
 // @route   POST /api/images/ocr
 // @desc    Post images to api for OCR
@@ -66,6 +65,7 @@ const OCR_AUTH =
 router.post("/ocr", (req, res) => {
 	// feed it a high quality pdf for testing
 	const fileContent = fs.readFileSync("cake.pdf");
+
 	// ocr
 	axios({
 		method: "post",
