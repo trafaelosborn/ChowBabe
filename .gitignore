@@ -1,7 +1,9 @@
 node_modules
 build
 
+# ignore local api variables
 /config/default.json
+config/default.json
 
 # dependencies
 /node_modules
