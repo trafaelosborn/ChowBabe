@@ -52,21 +52,21 @@ export default {
 	},
 
 	// save image from image capture
-	saveImage: function (imageData) {
+	saveImage: function (imageData, id) {
 		// Remove header from data and keep the string
-		let base64Image = imageData.split(';base64,').pop();
+		let base64Image = imageData.split(";base64,").pop();
 		// Send to server as string and convert it to an image
-		axios.post("/api/images/save", {imageData: base64Image})
+		axios.post("/api/images/save", { imageData: base64Image, id: id}).then((result) => {
+			// send image info back to browser
+			console.log("api saveImage result");
+			console.log(result);
+		});
 	},
 
-	ocr: function() {
-		console.log('client api ocr')
+	ocr: function () {
+		console.log("client api ocr");
 		// test ocr with existing photo
-		axios.post("/api/images/ocr").then(res => {
-			console.log('client api ocr');
-			console.log(res.data.message);
-		})
-
+		axios.post("/api/images/ocr") 
 	},
 
 	//////////////////
@@ -105,6 +105,4 @@ export default {
 		const token = localStorage.getItem("recipetoken");
 		return axios.get("/api/users/info/", { headers: { "x-auth-token": token } });
 	},
-
-	
 };

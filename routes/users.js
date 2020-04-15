@@ -58,6 +58,7 @@ router.post("/", (req, res) => {
 				});
 			});
 		});
+		console.log('test')
 	});
 });
 
