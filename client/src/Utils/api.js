@@ -15,7 +15,9 @@ export default {
 	},
 
 	// Get recipe category when user clicks profile sidebar
-	getRecipes: function (category) {
+	getRecipes: function (category, userId) {
+		console.log("api getRecipes");
+		console.log(userId);
 		// category determines if we're searching for custom recipes, saved recipes, or both
 		let isCustom = true;
 		if (category === "savedrecipes") {
@@ -23,7 +25,7 @@ export default {
 		} else if (category === "allrecipes") {
 			isCustom = "all";
 		}
-		return axios.get("/api/recipes/find/" + isCustom, {
+		return axios.get("/api/recipes/find/" + userId + "/" + isCustom, {
 			headers: { "Content-Type": "application/json" },
 		});
 	},
@@ -41,8 +43,8 @@ export default {
 	},
 
 	// Save a recipe found via the API
-	saveRecipe: function (recipeData) {
-		axios.post("/api/recipes/save", recipeData);
+	saveRecipe: function (recipeData, id) {
+		axios.post("/api/recipes/save", { recipeData: recipeData, id: id });
 	},
 
 	// Delete a recipe from the ProfileCard
@@ -69,11 +71,7 @@ export default {
 		// test ocr with existing photo
 		return axios.post("/api/images/ocr", {
 			captureName: capture.captureName,
-		}); /* .then((result) => {
-			console.log("api ocr result");
-			console.log(result.data.OCRText);
-			
-		}); */
+		});
 	},
 
 	//////////////////

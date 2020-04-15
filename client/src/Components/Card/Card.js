@@ -29,9 +29,8 @@ export default function ImgMediaCard(props) {
 	const recipe = props.recipe.recipe;
 
 	const addToFavorites = () => {
-		console.log("card add to favorites");
 		let recipeData = { thirdPartyRecipe: recipe };
-		API.saveRecipe(recipeData);
+		API.saveRecipe(recipeData, props.userId);
 	};
 
 	return (

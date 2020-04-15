@@ -37,8 +37,6 @@ class WebcamCapture extends React.Component {
 	// Send image to OCR api
 	ocr = () => {
 		API.ocr(this.state).then((ocrData) => {
-			console.log("webcamcapture api ocr data");
-			console.log(ocrData.data.OCRText);
 			this.setState({ ocrResults: ocrData.data.OCRText });
 		});
 	};

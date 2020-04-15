@@ -113,35 +113,35 @@ function ResponsiveDrawer(props) {
 	const [mobileOpen, setMobileOpen] = React.useState(false);
 	const [recipes, setRecipes] = React.useState([]);
 	const [category, setCategory] = React.useState("");
-	const [ user, setUser ] = React.useState({firstName:"", lastName:"", id:"", email:""});
+	const [user, setUser] = React.useState({ firstName: "", lastName: "", id: "", email: "" });
 
 	const getLoggedOnUserId = () => {
-		API.getUserId().then(result => {
+		API.getUserId().then((result) => {
 			setUser({
 				firstName: result.data.firstName,
 				lastName: result.data.lastName,
 				id: result.data._id,
-				email: result.data.email
-			})
-		})
-	}
+				email: result.data.email,
+			});
+		});
+	};
 
 	const handleDrawerToggle = () => {
 		setMobileOpen(!mobileOpen);
 	};
 
 	const handleDelete = (id) => {
-		// Delete the selected recipe and reload the current category 
+		// Delete the selected recipe and reload the current category
 		API.deleteRecipe(id);
-		// For some reason getting the category state here results in an object with 
+		// For some reason getting the category state here results in an object with
 		// an extra "category" key. I changed loadRecipes to expect a string so we can sanitize
-		// input wherever it's called. 
-		const cat = {category};
+		// input wherever it's called.
+		const cat = { category };
 		loadRecipes(cat.category.category);
-	}
+	};
 
 	const loadRecipes = (category) => {
-		API.getRecipes(category).then((results) => {
+		API.getRecipes(category, user.id).then((results) => {
 			const newArr = results.data.map((item, index) => {
 				if (item.isCustom) {
 					return {
@@ -165,12 +165,12 @@ function ResponsiveDrawer(props) {
 			});
 			setRecipes(newArr);
 		});
-	}
+	};
 
 	const handleClick = (e, category) => {
 		// Set category and get recipes
-		setCategory({category});
-		const cat = {category};
+		setCategory({ category });
+		const cat = { category };
 		loadRecipes(cat.category);
 	};
 
@@ -178,7 +178,7 @@ function ResponsiveDrawer(props) {
 		getLoggedOnUserId();
 		// Show allrecipes when Profile loads
 		loadRecipes("allrecipes");
-	}, [])
+	}, []);
 
 	const drawer = (
 		<div>

@@ -23,11 +23,14 @@ const sugarReplacer = (totalNutrients) => {
 // @desc    Get all saved recipes
 // @access  Private
 //router.get("/find", auth, (req, res) => {
-router.get("/find/:isCustom", (req, res) => {
+router.get("/find/:id/:isCustom", (req, res) => {
 	// Gets custom OR saved recipes depending on value of isCustom
-	let findVal = { isCustom: req.params.isCustom };
+	let findVal = {
+		userId: req.params.id,
+		isCustom: req.params.isCustom,
+	};
 	// Returns custom and saved recipes
-	if (req.params.isCustom === "all") findVal = {};
+	if (req.params.isCustom === "all") findVal = { userId: req.params.id };
 	Recipe.find(findVal)
 		.then(function (data) {
 			res.json(data);
@@ -96,6 +99,7 @@ router.post("/create", (req, res) => {
 			const nutrients = sugarReplacer(result.data.totalNutrients);
 			// If the request was successful, add the new recipe + nutrition data to DB
 			Recipe.create({
+				userId: req.body.userId.userId,
 				recipeName: req.body.recipeName,
 				ingredientItems: req.body.ingredientItems,
 				directionItems: req.body.directionItems,
@@ -123,36 +127,47 @@ router.post("/create", (req, res) => {
 // router.post("/save", auth, (req, res) => {
 router.post("/save", (req, res) => {
 	// Sanitize API response before sending to mongo
-	const nutrients = sugarReplacer(req.body.thirdPartyRecipe.totalNutrients);
+	const nutrients = sugarReplacer(req.body.recipeData.thirdPartyRecipe.totalNutrients);
 
 	// Mongoose does not play well with the raw req data so we have to
 	// create a new object for it.
 	const newObj = {
+		userId: req.body.id.userId,
 		thirdPartyRecipe: {
-			uri: req.body.thirdPartyRecipe.uri ? req.body.thirdPartyRecipe.uri : null,
-			label: req.body.thirdPartyRecipe.label ? req.body.thirdPartyRecipe.label : null,
-			image: req.body.thirdPartyRecipe.image ? req.body.thirdPartyRecipe.image : null,
-			source: req.body.thirdPartyRecipe.source ? req.body.thirdPartyRecipe.source : null,
-			yield: req.body.thirdPartyRecipe.yield ? req.body.thirdPartyRecipe.yield : null,
-			dietLabels: [req.body.thirdPartyRecipe.dietLabels]
-				? [req.body.thirdPartyRecipe.dietLabels]
+			uri: req.body.recipeData.thirdPartyRecipe.uri
+				? req.body.recipeData.thirdPartyRecipe.uri
 				: null,
-			healthLabels: [req.body.thirdPartyRecipe.healthLabels]
-				? [req.body.thirdPartyRecipe.healthLabels]
+			label: req.body.recipeData.thirdPartyRecipe.label
+				? req.body.recipeData.thirdPartyRecipe.label
 				: null,
-			cautions: [req.body.thirdPartyRecipe.cautions]
-				? [req.body.thirdPartyRecipe.cautions]
+			image: req.body.recipeData.thirdPartyRecipe.image
+				? req.body.recipeData.thirdPartyRecipe.image
 				: null,
-			ingredientLines: [req.body.thirdPartyRecipe.ingredientLines]
-				? [req.body.thirdPartyRecipe.ingredientLines]
+			source: req.body.recipeData.thirdPartyRecipe.source
+				? req.body.recipeData.thirdPartyRecipe.source
 				: null,
-			calories: req.body.thirdPartyRecipe.calories
-				? req.body.thirdPartyRecipe.calories
+			yield: req.body.recipeData.thirdPartyRecipe.yield
+				? req.body.recipeData.thirdPartyRecipe.yield
 				: null,
-			//totalNutrients: req.body.thirdPartyRecipe.totalNutrients ? req.body.thirdPartyRecipe.totalNutrients : null,
+			dietLabels: [req.body.recipeData.thirdPartyRecipe.dietLabels]
+				? [req.body.recipeData.thirdPartyRecipe.dietLabels]
+				: null,
+			healthLabels: [req.body.recipeData.thirdPartyRecipe.healthLabels]
+				? [req.body.recipeData.thirdPartyRecipe.healthLabels]
+				: null,
+			cautions: [req.body.recipeData.thirdPartyRecipe.cautions]
+				? [req.body.recipeData.thirdPartyRecipe.cautions]
+				: null,
+			ingredientLines: [req.body.recipeData.thirdPartyRecipe.ingredientLines]
+				? [req.body.recipeData.thirdPartyRecipe.ingredientLines]
+				: null,
+			calories: req.body.recipeData.thirdPartyRecipe.calories
+				? req.body.recipeData.thirdPartyRecipe.calories
+				: null,
+			//totalNutrients: req.body.recipeData.thirdPartyRecipe.totalNutrients ? req.body.recipeData.thirdPartyRecipe.totalNutrients : null,
 			totalNutrients: nutrients,
-			totalDaily: req.body.thirdPartyRecipe.totalDaily
-				? req.body.thirdPartyRecipe.totalDaily
+			totalDaily: req.body.recipeData.thirdPartyRecipe.totalDaily
+				? req.body.recipeData.thirdPartyRecipe.totalDaily
 				: null,
 		},
 		isCustom: false,
