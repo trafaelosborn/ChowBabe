@@ -1,5 +1,9 @@
 import React from "react";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Button from "@material-ui/core/Button";
 import Webcam from "react-webcam";
+import CaptureImg from "../CaptureImg/CaptureImg";
 import API from "../../Utils/api";
 
 class WebcamCapture extends React.Component {
@@ -9,6 +13,7 @@ class WebcamCapture extends React.Component {
 		this.state = {
 			id: "",
 			captureName: "",
+			key: 0,
 			ocrResults: [],
 		};
 	}
@@ -30,6 +35,7 @@ class WebcamCapture extends React.Component {
 		const imageSrc = this.webcam.getScreenshot();
 		this.setState({
 			captureName: this.state.id + "_image.png",
+			key: this.state.key + 1,
 		});
 		API.saveImage(imageSrc, this.state);
 	};
@@ -52,36 +58,41 @@ class WebcamCapture extends React.Component {
 			facingMode: "user",
 		};
 
+		const divStyle = {
+			padding: 0,
+			marginTop: 80,
+			marginBottom: 20,
+		};
+
 		return (
-			<div className="webcamContainer">
-				<h1>Welcome user {this.state.id}</h1>
-				<Webcam
-					className="webcam"
-					audio={false}
-					height={350}
-					ref={this.setRef}
-					screenshotFormat="image/png"
-					width={350}
-					videoConstraints={videoConstraints}
-				/>
+			<Container component="main" maxWidth="xs">
+				<CssBaseline />
+				<div className="webcamContainer" style={divStyle}>
+					<Webcam
+						className="webcam"
+						audio={false}
+						ref={this.setRef}
+						width={350}
+						screenshotFormat="image/png"
+						videoConstraints={videoConstraints}
+					/>
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						onClick={this.capture}
+					>
+						Capture Photo!
+					</Button>
+					<CaptureImg
+						key={this.state.key}
+						captureName={this.state.captureName}
+						ocr={this.ocr}
+					/>
 
-				<button onClick={this.capture}>Capture photo</button>
-
-				<div className="captureContainer">
-					<h1>Filename: {this.state.captureName}</h1>
-					<img
-						className="capture"
-						src={
-							"https://chow-babe.s3-us-west-2.amazonaws.com/publicprefix/" +
-							this.state.captureName
-						}
-						alt="Test"
-					></img>
-					<button onClick={this.ocr}>OCR Test</button>
+					<div className="resultsContainer">{this.state.ocrResults}</div>
 				</div>
-
-				<div className="resultsContainer">{this.state.ocrResults}</div>
-			</div>
+			</Container>
 		);
 	}
 }
