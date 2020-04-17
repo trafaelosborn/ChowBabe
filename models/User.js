@@ -19,6 +19,11 @@ const UserSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	lastCapture: {
+		type: Boolean,
+		default: false
+
+	}
 });
 
 const User = mongoose.model("User", UserSchema);

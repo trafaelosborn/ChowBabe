@@ -5,11 +5,10 @@ const config = require("config");
 const auth = require("../config/middleware/auth");
 const AWS = require("aws-sdk");
 const fs = require("fs");
+const User = require("../models/User");
 
 //////////////////////
 // AWS
-
-// Heroku:
 const BUCKET = process.env.BUCKET || config.get("BUCKET");
 const ID = process.env.ID || config.get("ID");
 const SECRET = process.env.SECRET || config.get("SECRET");
@@ -46,6 +45,10 @@ router.post("/save", (req, res) => {
 	fs.writeFile(newFileName, req.body.imageData, { encoding: "base64" }, function (err, fileData) {
 		// Upload file to bucket
 		uploadFile(newFileName, newFileName);
+		// set lastCapture to true so the image shows on capture page
+		User.findOneAndUpdate({_id: req.body.captureInfo.id}, {lastCapture: true}).then(result => {
+			console.log('set user lastcapture = true')
+		})
 	});
 });
 

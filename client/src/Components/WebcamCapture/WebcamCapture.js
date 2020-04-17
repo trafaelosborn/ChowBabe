@@ -13,7 +13,7 @@ class WebcamCapture extends React.Component {
 		this.state = {
 			id: "",
 			captureName: "",
-			key: 0,
+			lastCapture: false,
 			ocrResults: [],
 		};
 	}
@@ -22,6 +22,7 @@ class WebcamCapture extends React.Component {
 		API.getUserId().then((result) => {
 			this.setState({
 				id: result.data._id,
+				lastCapture: result.data.lastCapture,
 				captureName: result.data._id + "_image.png",
 			});
 		});
@@ -35,7 +36,7 @@ class WebcamCapture extends React.Component {
 		const imageSrc = this.webcam.getScreenshot();
 		this.setState({
 			captureName: this.state.id + "_image.png",
-			key: this.state.key + 1,
+			lastCapture: true
 		});
 		API.saveImage(imageSrc, this.state);
 	};
@@ -84,13 +85,18 @@ class WebcamCapture extends React.Component {
 					>
 						Capture Photo!
 					</Button>
-					<CaptureImg
-						key={this.state.key}
-						captureName={this.state.captureName}
-						ocr={this.ocr}
-					/>
-
-					<div className="resultsContainer">{this.state.ocrResults}</div>
+					{this.state.lastCapture ? 
+						(<div>
+							<CaptureImg
+							key={this.state.key}
+							captureName={this.state.captureName}
+							ocr={this.ocr}
+						/>
+							<div className="resultsContainer">
+								{this.state.ocrResults}
+							</div>
+						</div>)
+					: null}
 				</div>
 			</Container>
 		);

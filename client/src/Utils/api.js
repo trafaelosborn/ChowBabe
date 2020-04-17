@@ -16,8 +16,7 @@ export default {
 
 	// Get recipe category when user clicks profile sidebar
 	getRecipes: function (category, userId) {
-		console.log("api getRecipes");
-		console.log(userId);
+		const token = localStorage.getItem("recipetoken");
 		// category determines if we're searching for custom recipes, saved recipes, or both
 		let isCustom = true;
 		if (category === "savedrecipes") {
@@ -25,31 +24,36 @@ export default {
 		} else if (category === "allrecipes") {
 			isCustom = "all";
 		}
+		
 		return axios.get("/api/recipes/find/" + userId + "/" + isCustom, {
-			headers: { "Content-Type": "application/json" },
+			headers: { "x-auth-token": token },
 		});
 	},
 
 	// Get a single recipe by id
 	getRecipeById: function (id) {
+		const token = localStorage.getItem("recipetoken");
 		return axios.get("/api/recipes/findById/" + id, {
-			headers: { "Content-Type": "application/json" },
+			headers: { "Content-Type": "application/json", "x-auth-token": token  },
 		});
 	},
 
 	// Create a new recipe using RecipeForm
 	createRecipe: function (recipeData) {
-		return axios.post("/api/recipes/create", recipeData);
+		const token = localStorage.getItem("recipetoken");
+		return axios.post("/api/recipes/create", recipeData, { headers: { "x-auth-token": token } });
 	},
 
 	// Save a recipe found via the API
 	saveRecipe: function (recipeData, id) {
-		axios.post("/api/recipes/save", { recipeData: recipeData, id: id });
+		const token = localStorage.getItem("recipetoken");
+		axios.post("/api/recipes/save", { recipeData: recipeData, id: id }, { headers: { "x-auth-token": token } });
 	},
 
 	// Delete a recipe from the ProfileCard
 	deleteRecipe: function (id) {
-		axios.post("/api/recipes/delete/" + id);
+		const token = localStorage.getItem("recipetoken");
+		axios.post("/api/recipes/delete", {id: id}, { headers: { "x-auth-token": token  } });
 	},
 
 	// save image from image capture
@@ -57,14 +61,8 @@ export default {
 		// Remove header from data and keep the string
 		let base64Image = imageData.split(";base64,").pop();
 		// Send to server as string and convert it to an image
-		//axios.post("/api/images/save", { imageData: base64Image, id: id }).then((result) => {
 		axios
 			.post("/api/images/save", { imageData: base64Image, captureInfo: captureInfo })
-			.then((result) => {
-				// send image info back to browser
-				console.log("api saveImage result");
-				console.log(result);
-			});
 	},
 
 	ocr: function (capture) {
