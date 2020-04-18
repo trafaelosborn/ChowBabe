@@ -4,6 +4,10 @@
 
 Store your favorite recipes and instantly see the nutrition information. Search for recipes using the Edamam API and save them to your profile. Under construction: optical character recognition using react-webcam ocrwebservice. Save recipes directly from your favorite cookbooks and import them with your webcam or smartphone.
 
+See it in action here: 
+
+[http://chow-babe.herokuapp.com](http://chow-babe.herokuapp.com)
+
 # Installation
 
 1. Clone the repo.
