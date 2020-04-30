@@ -25,3 +25,16 @@ See it in action here:
 # How it works
 
 Register to create a user, then click the links in the nav to create or search for a recipe. 
+
+Built With
+React
+Material UI
+Edamam Recipe and Nutrition API
+
+Authors
+Dan Dismuke - Back End
+Taylor Osborn - Front End
+
+Acknowledgments
+Photograph by Joseph Gonzales from Unsplash
+Login and Sign up templates from Material UI
