@@ -26,15 +26,15 @@ See it in action here:
 
 Register to create a user, then click the links in the nav to create or search for a recipe. 
 
-Built With
+# Built With
 React
 Material UI
 Edamam Recipe and Nutrition API
 
-Authors
+# Authors
 Dan Dismuke - Back End
 Taylor Osborn - Front End
 
-Acknowledgments
+# Acknowledgments
 Photograph by Joseph Gonzales from Unsplash
 Login and Sign up templates from Material UI
