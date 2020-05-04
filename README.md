@@ -8,6 +8,8 @@ See it in action here:
 
 [http://chow-babe.herokuapp.com](http://chow-babe.herokuapp.com)
 
+![ChowBabe](chowbabe.png)
+
 # Installation
 
 1. Clone the repo.
